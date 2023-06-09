@@ -128,7 +128,7 @@ const Navigation = ({session}) => {
         const updatedUserData = result.value;
         console.log(updatedUserData);
         // Realizar la solicitud PUT al servidor para actualizar el usuario
-        const updateResponse = await axios.put(`${process.env.REACT_APP_API_URL}/user/${userId}`, updatedUserData, {
+        const updateResponse = await axios.put(`${process.env.REACT_APP_API_URL}user/${userId}`, updatedUserData, {
   headers: {
     Authorization: `Bearer ${session.token}`,
   },
@@ -160,7 +160,7 @@ const Navigation = ({session}) => {
 			<img src="./Img/logo.jpeg" alt="Logo" />
 		</div>
 		<div className="user-menu">
-			<img className="user-avatar" id="user-menu-btn" src={process.env.REACT_APP_PUBLIC_URL + '/Img/Navegacion/Perfil2.jpg'} alt="User Avatar" ref={userMenuBtnRef}/>
+			<img className="user-avatar" id="user-menu-btn" src={process.env.REACT_APP_PUBLIC_URL + 'Img/Navegacion/Perfil2.jpg'} alt="User Avatar" ref={userMenuBtnRef}/>
 			<ul className="user-actions" ref={userActionsRef}>
 				<li><a href="#" onClick={() => editUser(session.cod_usuario)}>Perfil</a></li>
 				<li><a href="#" onClick={handleLogout}>Cerrar Sesión</a></li>

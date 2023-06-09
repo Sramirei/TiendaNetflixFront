@@ -13,7 +13,7 @@ const AmazonTable = () => {
   const [loading, setLoading] = useState(true);
   const { session } = useContext(UserContext);
 
-  // process.env.REACT_APP_API_URL + '/amazon'
+  // process.env.REACT_APP_API_URL + 'amazon'
 
   //console.log(session.token);
 
@@ -21,7 +21,7 @@ const AmazonTable = () => {
     setLoading(true); // Establecer carga en true antes de la solicitud
 
     axios
-      .get(process.env.REACT_APP_API_URL + '/amazon', {
+      .get(process.env.REACT_APP_API_URL + 'amazon', {
         headers: {
           Authorization: `Bearer ${session.token}`, // Agrega el token de sesión en los encabezados con el formato "Bearer {token}"
         },
@@ -87,7 +87,7 @@ const AmazonTable = () => {
         const accountData = result.value;
         //console.log(accountData);
         const response = await axios.post(
-          process.env.REACT_APP_API_URL + '/amazon',
+          process.env.REACT_APP_API_URL + 'amazon',
           accountData,
           {
             headers: {
@@ -117,7 +117,7 @@ const AmazonTable = () => {
     try {
       // Obtener los datos de la cuenta a editar del servidor
       const response = await axios.get(
-        `${process.env.REACT_APP_API_URL}/amazon/${accountId}`,
+        `${process.env.REACT_APP_API_URL}amazon/${accountId}`,
         {
           headers: {
             Authorization: `Bearer ${session.token}`, // Agrega el token de sesión en los encabezados con el formato "Bearer {token}"
@@ -154,7 +154,7 @@ const AmazonTable = () => {
         console.log(updatedAccountData);
         // Realizar la solicitud PUT al servidor para actualizar el usuario
         const updateResponse = await axios.put(
-          `${process.env.REACT_APP_API_URL}/amazon/${accountId}`,
+          `${process.env.REACT_APP_API_URL}amazon/${accountId}`,
           updatedAccountData,
           {
             headers: {
@@ -196,7 +196,7 @@ const AmazonTable = () => {
       });
 
       if (result.isConfirmed) {
-        await axios.delete(`${process.env.REACT_APP_API_URL}/amazon/${accountId}`, {
+        await axios.delete(`${process.env.REACT_APP_API_URL}amazon/${accountId}`, {
           headers: {
             Authorization: `Bearer ${session.token}`, // Agrega el token de sesión en los encabezados con el formato "Bearer {token}"
           },

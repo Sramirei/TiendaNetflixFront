@@ -17,7 +17,7 @@ const NetflixTable = () => {
     setLoading(true); // Establecer carga en true antes de la solicitud
 
     axios
-      .get(process.env.REACT_APP_API_URL + '/netflix', {
+      .get(process.env.REACT_APP_API_URL + 'netflix', {
         headers: {
           Authorization: `Bearer ${session.token}`, // Agrega el token de sesión en los encabezados con el formato "Bearer {token}"
         },
@@ -84,7 +84,7 @@ const NetflixTable = () => {
         //console.log(accountData);
         // Realizar la solicitud POST al servidor para crear el usuario
         const response = await axios.post(
-          process.env.REACT_APP_API_URL + '/netflix',
+          process.env.REACT_APP_API_URL + 'netflix',
           accountData,
           {
             headers: {
@@ -113,7 +113,7 @@ const NetflixTable = () => {
     try {
       // Obtener los datos de la cuenta a editar del servidor
       const response = await axios.get(
-        `${process.env.REACT_APP_API_URL}/netflix/${accountId}`,
+        `${process.env.REACT_APP_API_URL}netflix/${accountId}`,
         {
           headers: {
             Authorization: `Bearer ${session.token}`, // Agrega el token de sesión en los encabezados con el formato "Bearer {token}"
@@ -150,7 +150,7 @@ const NetflixTable = () => {
         console.log(updatedAccountData);
         // Realizar la solicitud PUT al servidor para actualizar el usuario
         const updateResponse = await axios.put(
-          `${process.env.REACT_APP_API_URL}/netflix/${accountId}`,
+          `${process.env.REACT_APP_API_URL}netflix/${accountId}`,
           updatedAccountData,
           {
             headers: {

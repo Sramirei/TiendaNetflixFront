@@ -16,7 +16,7 @@ const UserTable = () => {
 
   useEffect(() => {
     axios
-      .get(process.env.REACT_APP_API_URL + '/user', {
+      .get(process.env.REACT_APP_API_URL + 'user', {
         headers: {
           Authorization: `Bearer ${session.token}`, // Agrega el token de sesión en los encabezados con el formato "Bearer {token}"
         },
@@ -97,7 +97,7 @@ const UserTable = () => {
         //console.log(userData);
         // Realizar la solicitud POST al servidor para crear el usuario
         const response = await axios.post(
-          process.env.REACT_APP_API_URL + '/user',
+          process.env.REACT_APP_API_URL + 'user',
           userData,
           {
             headers: {
@@ -130,7 +130,7 @@ const UserTable = () => {
     try {
       // Obtener los datos del usuario a editar del servidor
       const response = await axios.get(
-        `${process.env.REACT_APP_API_URL}/user/${userId}`,
+        `${process.env.REACT_APP_API_URL}user/${userId}`,
         {
           headers: {
             Authorization: `Bearer ${session.token}`, // Agrega el token de sesión en los encabezados con el formato "Bearer {token}"
@@ -190,7 +190,7 @@ const UserTable = () => {
         console.log(updatedUserData);
         // Realizar la solicitud PUT al servidor para actualizar el usuario
         const updateResponse = await axios.put(
-          `${process.env.REACT_APP_API_URL}/user/${userId}`,
+          `${process.env.REACT_APP_API_URL}user/${userId}`,
           updatedUserData,
           {
             headers: {
@@ -232,7 +232,7 @@ const UserTable = () => {
 
       if (result.isConfirmed) {
         await axios.put(
-          `${process.env.REACT_APP_API_URL}/user/${userId}`,
+          `${process.env.REACT_APP_API_URL}user/${userId}`,
           {
             estado: "Inactivo",
           },

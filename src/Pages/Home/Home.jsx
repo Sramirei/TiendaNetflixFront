@@ -58,16 +58,16 @@ const Home = () => {
             <li>
                 <div className="img-hero-background">
                     <span>
-                        <img src={process.env.REACT_APP_PUBLIC_URL + '/Img/Home/Paramount1.jpg'} alt="Imagen 1" />
+                        <img src={process.env.REACT_APP_PUBLIC_URL + 'Img/Home/Paramount1.jpg'} alt="Imagen 1" />
                     </span> 
                     <span>
-                        <img src={process.env.REACT_APP_PUBLIC_URL + '/Img/Home/Paramount2.png'} alt="Imagen 2" />
+                        <img src={process.env.REACT_APP_PUBLIC_URL + 'Img/Home/Paramount2.png'} alt="Imagen 2" />
                     </span> 
                     <span>
-                        <img src={process.env.REACT_APP_PUBLIC_URL + '/Img/Home/Paramount3.jpg'} alt="Imagen 3" />
+                        <img src={process.env.REACT_APP_PUBLIC_URL + 'Img/Home/Paramount3.jpg'} alt="Imagen 3" />
                     </span> 
                     <span>
-                        <img src={process.env.REACT_APP_PUBLIC_URL + '/Img/Home/Paramount4.jpg'} alt="Imagen 4" />
+                        <img src={process.env.REACT_APP_PUBLIC_URL + 'Img/Home/Paramount4.jpg'} alt="Imagen 4" />
                     </span> 
                 </div>
                 {/* <!-- To add more elements increase the number in " hero-number-fixed ", and add more " li " " --> */}
@@ -77,16 +77,16 @@ const Home = () => {
             <li>
                 <div className="img-hero-background">
                     <span>
-                        <img src={process.env.REACT_APP_PUBLIC_URL + '/Img/Home/Star1.jpg'} alt="Imagen 1" />
+                        <img src={process.env.REACT_APP_PUBLIC_URL + 'Img/Home/Star1.jpg'} alt="Imagen 1" />
                     </span> 
                     <span>
-                        <img src={process.env.REACT_APP_PUBLIC_URL + '/Img/Home/Star2.jpg'} alt="Imagen 2" />
+                        <img src={process.env.REACT_APP_PUBLIC_URL + 'Img/Home/Star2.jpg'} alt="Imagen 2" />
                     </span> 
                     <span>
-                        <img src={process.env.REACT_APP_PUBLIC_URL + '/Img/Home/Star3.jpg'} alt="Imagen 3" />
+                        <img src={process.env.REACT_APP_PUBLIC_URL + 'Img/Home/Star3.jpg'} alt="Imagen 3" />
                     </span> 
                     <span>
-                        <img src={process.env.REACT_APP_PUBLIC_URL + '/Img/Home/Star4.jpg'} alt="Imagen 4" />
+                        <img src={process.env.REACT_APP_PUBLIC_URL + 'Img/Home/Star4.jpg'} alt="Imagen 4" />
                     </span> 
                 </div> 
             </li>
@@ -94,16 +94,16 @@ const Home = () => {
             <li>
                 <div className="img-hero-background">
                     <span>
-                        <img src={process.env.REACT_APP_PUBLIC_URL + '/Img/Home/Crunchy1.png'} alt="Imagen 1" />
+                        <img src={process.env.REACT_APP_PUBLIC_URL + 'Img/Home/Crunchy1.png'} alt="Imagen 1" />
                     </span> 
                     <span>
-                        <img src={process.env.REACT_APP_PUBLIC_URL + '/Img/Home/Crunchy2.jpg'} alt="Imagen 2" />
+                        <img src={process.env.REACT_APP_PUBLIC_URL + 'Img/Home/Crunchy2.jpg'} alt="Imagen 2" />
                     </span> 
                     <span>
-                        <img src={process.env.REACT_APP_PUBLIC_URL + '/Img/Home/Crunchy3.jpg'} alt="Imagen 3" />
+                        <img src={process.env.REACT_APP_PUBLIC_URL + 'Img/Home/Crunchy3.jpg'} alt="Imagen 3" />
                     </span> 
                     <span>
-                        <img src={process.env.REACT_APP_PUBLIC_URL + '/Img/Home/Crunchy4.png'} alt="Imagen 4" />
+                        <img src={process.env.REACT_APP_PUBLIC_URL + 'Img/Home/Crunchy4.png'} alt="Imagen 4" />
                     </span> 
                 </div> 
             </li>
@@ -111,16 +111,16 @@ const Home = () => {
             <li>
                 <div className="img-hero-background">
                     <span>
-                        <img src={process.env.REACT_APP_PUBLIC_URL + '/Img/Home/Netflix1.jpg'} alt="Imagen 1" />
+                        <img src={process.env.REACT_APP_PUBLIC_URL + 'Img/Home/Netflix1.jpg'} alt="Imagen 1" />
                     </span> 
                     <span>
-                        <img src={process.env.REACT_APP_PUBLIC_URL + '/Img/Home/Netflix2.png'} alt="Imagen 2" />
+                        <img src={process.env.REACT_APP_PUBLIC_URL + 'Img/Home/Netflix2.png'} alt="Imagen 2" />
                     </span> 
                     <span>
-                        <img src={process.env.REACT_APP_PUBLIC_URL + '/Img/Home/Netflix3.jpg'} alt="Imagen 3" />
+                        <img src={process.env.REACT_APP_PUBLIC_URL + 'Img/Home/Netflix3.jpg'} alt="Imagen 3" />
                     </span> 
                     <span>
-                        <img src={process.env.REACT_APP_PUBLIC_URL + '/Img/Home/Netflix4.jpeg'} alt="Imagen 4" />
+                        <img src={process.env.REACT_APP_PUBLIC_URL + 'Img/Home/Netflix4.jpeg'} alt="Imagen 4" />
                     </span> 
                 </div> 
             </li>
@@ -145,16 +145,16 @@ const Home = () => {
             <li>
             <div className="img-hero-background">
                     <span>
-                        <img src={process.env.REACT_APP_PUBLIC_URL + '/Img/Home/Disney1.jpg'} alt="Imagen 1" />
+                        <img src={process.env.REACT_APP_PUBLIC_URL + 'Img/Home/Disney1.jpg'} alt="Imagen 1" />
                     </span> 
                     <span>
-                        <img src={process.env.REACT_APP_PUBLIC_URL + '/Img/Home/Disney2.jpg'} alt="Imagen 2" />
+                        <img src={process.env.REACT_APP_PUBLIC_URL + 'Img/Home/Disney2.jpg'} alt="Imagen 2" />
                     </span> 
                     <span>
-                        <img src={process.env.REACT_APP_PUBLIC_URL + '/Img/Home/Disney3.jpg'} alt="Imagen 3" />
+                        <img src={process.env.REACT_APP_PUBLIC_URL + 'Img/Home/Disney3.jpg'} alt="Imagen 3" />
                     </span> 
                     <span>
-                        <img src={process.env.REACT_APP_PUBLIC_URL + '/Img/Home/Disney4.jpeg'} alt="Imagen 4" />
+                        <img src={process.env.REACT_APP_PUBLIC_URL + 'Img/Home/Disney4.jpeg'} alt="Imagen 4" />
                     </span> 
                 </div> 
             </li>
@@ -162,16 +162,16 @@ const Home = () => {
             <li>
                 <div className="img-hero-background">
                     <span>
-                        <img src={process.env.REACT_APP_PUBLIC_URL + '/Img/Home/apple1.jpg'} alt="" />
+                        <img src={process.env.REACT_APP_PUBLIC_URL + 'Img/Home/apple1.jpg'} alt="" />
                     </span> 
                     <span>
-                        <img src={process.env.REACT_APP_PUBLIC_URL + '/Img/Home/apple2.jpg'} alt="" />
+                        <img src={process.env.REACT_APP_PUBLIC_URL + 'Img/Home/apple2.jpg'} alt="" />
                     </span> 
                     <span>
-                        <img src={process.env.REACT_APP_PUBLIC_URL + '/Img/Home/apple3.jpg'} alt="" />
+                        <img src={process.env.REACT_APP_PUBLIC_URL + 'Img/Home/apple3.jpg'} alt="" />
                     </span> 
                     <span>
-                        <img src={process.env.REACT_APP_PUBLIC_URL + '/Img/Home/apple4.jpg'} alt="" />
+                        <img src={process.env.REACT_APP_PUBLIC_URL + 'Img/Home/apple4.jpg'} alt="" />
                     </span> 
                 </div> 
             </li>
@@ -179,16 +179,16 @@ const Home = () => {
             <li>
                 <div className="img-hero-background">
                     <span>
-                        <img src={process.env.REACT_APP_PUBLIC_URL + '/Img/Home/Amazon1.jpg'} alt="Imagen 1" />
+                        <img src={process.env.REACT_APP_PUBLIC_URL + 'Img/Home/Amazon1.jpg'} alt="Imagen 1" />
                     </span> 
                     <span>
-                        <img src={process.env.REACT_APP_PUBLIC_URL + '/Img/Home/Amazon2.jpg'} alt="Imagen 2" />
+                        <img src={process.env.REACT_APP_PUBLIC_URL + 'Img/Home/Amazon2.jpg'} alt="Imagen 2" />
                     </span> 
                     <span>
-                        <img src={process.env.REACT_APP_PUBLIC_URL + '/Img/Home/Amazon3.jpg'} alt="Imagen 3" />
+                        <img src={process.env.REACT_APP_PUBLIC_URL + 'Img/Home/Amazon3.jpg'} alt="Imagen 3" />
                     </span> 
                     <span>
-                        <img src={process.env.REACT_APP_PUBLIC_URL + '/Img/Home/Amazon4.jpg'} alt="Imagen 4" />
+                        <img src={process.env.REACT_APP_PUBLIC_URL + 'Img/Home/Amazon4.jpg'} alt="Imagen 4" />
                     </span> 
                 </div> 
             </li>

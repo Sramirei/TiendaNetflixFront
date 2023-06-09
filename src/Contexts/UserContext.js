@@ -14,7 +14,7 @@ const UserProvider = ({ children }) => {
 			}
 		};
 		
-		axios.get(process.env.REACT_APP_API_URL + '/verifyToken', config)
+		axios.get(process.env.REACT_APP_API_URL + 'verifyToken', config)
 			.then(res => {
 				const user = JSON.parse(loggedUserJSON)
 				setSession(user)
@@ -41,7 +41,7 @@ const UserProvider = ({ children }) => {
 		
 	}, [])
 
-	const url = process.env.REACT_APP_API_URL + '/login'
+	const url = process.env.REACT_APP_API_URL + 'login'
 	const login = async (Credentials) => {
 		const { data } = await axios.post(url, Credentials)
 		window.localStorage.setItem('loggedAppUser', JSON.stringify(data))

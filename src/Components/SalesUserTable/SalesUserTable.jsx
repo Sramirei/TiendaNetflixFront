@@ -15,7 +15,7 @@ const SalesUserTable = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await axios.get(process.env.REACT_APP_API_URL + '/sales', {
+        const res = await axios.get(process.env.REACT_APP_API_URL + 'sales', {
           headers: {
             Authorization: `Bearer ${session.token}`, // Agrega el token de sesión en los encabezados con el formato "Bearer {token}"
           },

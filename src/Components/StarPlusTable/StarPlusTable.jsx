@@ -17,7 +17,7 @@ const StarPlusTable = () => {
     setLoading(true); // Establecer carga en true antes de la solicitud
 
     axios
-      .get(process.env.REACT_APP_API_URL + '/startplus', {
+      .get(process.env.REACT_APP_API_URL + 'startplus', {
         headers: {
           Authorization: `Bearer ${session.token}`, // Agrega el token de sesión en los encabezados con el formato "Bearer {token}"
         },
@@ -84,7 +84,7 @@ const StarPlusTable = () => {
         //console.log(accountData);
         // Realizar la solicitud POST al servidor para crear el usuario
         const response = await axios.post(
-          process.env.REACT_APP_API_URL + '/startplus',
+          process.env.REACT_APP_API_URL + 'startplus',
           accountData,
           {
             headers: {
@@ -113,7 +113,7 @@ const StarPlusTable = () => {
     try {
       // Obtener los datos de la cuenta a editar del servidor
       const response = await axios.get(
-        `${process.env.REACT_APP_API_URL}/startplus/${accountId}`,
+        `${process.env.REACT_APP_API_URL}startplus/${accountId}`,
         {
           headers: {
             Authorization: `Bearer ${session.token}`, // Agrega el token de sesión en los encabezados con el formato "Bearer {token}"
@@ -151,7 +151,7 @@ const StarPlusTable = () => {
         console.log(updatedAccountData);
         // Realizar la solicitud PUT al servidor para actualizar el usuario
         const updateResponse = await axios.put(
-          `${process.env.REACT_APP_API_URL}/startplus/${accountId}`,
+          `${process.env.REACT_APP_API_URL}startplus/${accountId}`,
           updatedAccountData,
           {
             headers: {
@@ -193,7 +193,7 @@ const StarPlusTable = () => {
       });
 
       if (result.isConfirmed) {
-        await axios.delete(`${process.env.REACT_APP_API_URL}/startplus/${accountId}`, {
+        await axios.delete(`${process.env.REACT_APP_API_URL}startplus/${accountId}`, {
           headers: {
             Authorization: `Bearer ${session.token}`, // Agrega el token de sesión en los encabezados con el formato "Bearer {token}"
           },

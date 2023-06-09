@@ -17,7 +17,7 @@ const PlexTable = () => {
       setLoading(true); // Establecer carga en true antes de la solicitud
     
       axios
-        .get(process.env.REACT_APP_API_URL + '/plex', {
+        .get(process.env.REACT_APP_API_URL + 'plex', {
           headers: {
             Authorization: `Bearer ${session.token}` // Agrega el token de sesión en los encabezados con el formato "Bearer {token}"
           }
@@ -83,7 +83,7 @@ const PlexTable = () => {
           const accountData = result.value;
           //console.log(accountData);
           // Realizar la solicitud POST al servidor para crear el usuario
-          const response = await axios.post(process.env.REACT_APP_API_URL + '/plex', accountData, {
+          const response = await axios.post(process.env.REACT_APP_API_URL + 'plex', accountData, {
             headers: {
               Authorization: `Bearer ${session.token}` // Agrega el token de sesión en los encabezados con el formato "Bearer {token}"
             }
@@ -117,7 +117,7 @@ const PlexTable = () => {
     const editAccount = async (accountId) => {
       try {
         // Obtener los datos de la cuenta a editar del servidor
-        const response = await axios.get(`${process.env.REACT_APP_API_URL}/plex/${accountId}`, {
+        const response = await axios.get(`${process.env.REACT_APP_API_URL}plex/${accountId}`, {
   headers: {
     Authorization: `Bearer ${session.token}` // Agrega el token de sesión en los encabezados con el formato "Bearer {token}"
   }
@@ -152,7 +152,7 @@ const PlexTable = () => {
           const updatedAccountData = result.value;
           console.log(updatedAccountData);
           // Realizar la solicitud PUT al servidor para actualizar el usuario
-          const updateResponse = await axios.put(`${process.env.REACT_APP_API_URL}/plex/${accountId}`, updatedAccountData, {
+          const updateResponse = await axios.put(`${process.env.REACT_APP_API_URL}plex/${accountId}`, updatedAccountData, {
   headers: {
     Authorization: `Bearer ${session.token}` // Agrega el token de sesión en los encabezados con el formato "Bearer {token}"
   }
@@ -193,7 +193,7 @@ const PlexTable = () => {
         });
     
         if (result.isConfirmed) {
-          await axios.delete(`${process.env.REACT_APP_API_URL}/plex/${accountId}`, {
+          await axios.delete(`${process.env.REACT_APP_API_URL}plex/${accountId}`, {
             headers: {
               Authorization: `Bearer ${session.token}` // Agrega el token de sesión en los encabezados con el formato "Bearer {token}"
             }

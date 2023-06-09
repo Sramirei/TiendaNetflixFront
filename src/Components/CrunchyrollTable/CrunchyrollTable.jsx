@@ -13,11 +13,15 @@ const CrunchyrollTable = () => {
   const [loading, setLoading] = useState(true);
   const { session } = useContext(UserContext);
 
+  // process.env.REACT_APP_API_URL + 'crunchyroll'
+
+  //console.log(session.token);
+
   useEffect(() => {
     setLoading(true); // Establecer carga en true antes de la solicitud
 
     axios
-      .get(process.env.REACT_APP_API_URL + '/crunchyroll', {
+      .get(process.env.REACT_APP_API_URL + 'crunchyroll', {
         headers: {
           Authorization: `Bearer ${session.token}`, // Agrega el token de sesión en los encabezados con el formato "Bearer {token}"
         },
@@ -82,13 +86,13 @@ const CrunchyrollTable = () => {
       if (result.isConfirmed) {
         const accountData = result.value;
         //console.log(accountData);
-        // Realizar la solicitud POST al servidor para crear el usuario
         const response = await axios.post(
-          process.env.REACT_APP_API_URL + '/crunchyroll',
+          process.env.REACT_APP_API_URL + 'crunchyroll',
           accountData,
           {
             headers: {
-              Authorization: `Bearer ${session.token}`, // Agrega el token de sesión en los encabezados con el formato "Bearer {token}"
+              "Content-Type": "multipart/form-data",
+              authorization: `Bearer ${session.token}`,
             },
           }
         );
@@ -113,7 +117,12 @@ const CrunchyrollTable = () => {
     try {
       // Obtener los datos de la cuenta a editar del servidor
       const response = await axios.get(
-        `${process.env.REACT_APP_API_URL}/crunchyroll/${accountId}`
+        `${process.env.REACT_APP_API_URL}crunchyroll/${accountId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${session.token}`, // Agrega el token de sesión en los encabezados con el formato "Bearer {token}"
+          },
+        }
       );
       const accountData = response.data[0];
       //console.log(accountData);
@@ -144,8 +153,9 @@ const CrunchyrollTable = () => {
         const updatedAccountData = result.value;
         console.log(updatedAccountData);
         // Realizar la solicitud PUT al servidor para actualizar el usuario
-        const response = await axios.get(
-          `${process.env.REACT_APP_API_URL}/crunchyroll/${accountId}`,
+        const updateResponse = await axios.put(
+          `${process.env.REACT_APP_API_URL}crunchyroll/${accountId}`,
+          updatedAccountData,
           {
             headers: {
               Authorization: `Bearer ${session.token}`, // Agrega el token de sesión en los encabezados con el formato "Bearer {token}"
@@ -186,14 +196,12 @@ const CrunchyrollTable = () => {
       });
 
       if (result.isConfirmed) {
-        await axios.delete(
-          `${process.env.REACT_APP_API_URL}/crunchyroll/${accountId}`,
-          {
-            headers: {
-              Authorization: `Bearer ${session.token}`, // Agrega el token de sesión en los encabezados con el formato "Bearer {token}"
-            },
-          }
-        );
+        await axios.delete(`${process.env.REACT_APP_API_URL}crunchyroll/${accountId}`, {
+          headers: {
+            Authorization: `Bearer ${session.token}`, // Agrega el token de sesión en los encabezados con el formato "Bearer {token}"
+          },
+        });
+
         Swal.fire("¡Eliminado!", "Tu archivo ha sido eliminado.", "success");
         console.log("Cuenta actualizada correctamente");
         setUpdateTrigger(!updateTrigger);
@@ -313,6 +321,6 @@ const CrunchyrollTable = () => {
       </div>
     </>
   );
-};
+}
 
-export default CrunchyrollTable;
+export default CrunchyrollTable

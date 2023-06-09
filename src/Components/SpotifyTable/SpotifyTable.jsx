@@ -17,7 +17,7 @@ const SpotifyTable = () => {
     setLoading(true); // Establecer carga en true antes de la solicitud
 
     axios
-      .get(process.env.REACT_APP_API_URL + '/spotify', {
+      .get(process.env.REACT_APP_API_URL + 'spotify', {
         headers: {
           Authorization: `Bearer ${session.token}`, // Agrega el token de sesión en los encabezados con el formato "Bearer {token}"
         },
@@ -84,7 +84,7 @@ const SpotifyTable = () => {
         //console.log(accountData);
         // Realizar la solicitud POST al servidor para crear el usuario
         const response = await axios.post(
-          process.env.REACT_APP_API_URL + '/spotify',
+          process.env.REACT_APP_API_URL + 'spotify',
           accountData,
           {
             headers: {
@@ -112,7 +112,7 @@ const SpotifyTable = () => {
     try {
       // Obtener los datos de la cuenta a editar del servidor
       const response = await axios.get(
-        `${process.env.REACT_APP_API_URL}/spotify/${accountId}`,
+        `${process.env.REACT_APP_API_URL}spotify/${accountId}`,
         {
           headers: {
             Authorization: `Bearer ${session.token}`, // Agrega el token de sesión en los encabezados con el formato "Bearer {token}"
@@ -150,7 +150,7 @@ const SpotifyTable = () => {
         console.log(updatedAccountData);
         // Realizar la solicitud PUT al servidor para actualizar el usuario
         const updateResponse = await axios.put(
-          `${process.env.REACT_APP_API_URL}/spotify/${accountId}`,
+          `${process.env.REACT_APP_API_URL}spotify/${accountId}`,
           updatedAccountData,
           {
             headers: {
@@ -192,7 +192,7 @@ const SpotifyTable = () => {
       });
 
       if (result.isConfirmed) {
-        await axios.delete(`${process.env.REACT_APP_API_URL}/spotify/${accountId}`, {
+        await axios.delete(`${process.env.REACT_APP_API_URL}spotify/${accountId}`, {
           headers: {
             Authorization: `Bearer ${session.token}`, // Agrega el token de sesión en los encabezados con el formato "Bearer {token}"
           },

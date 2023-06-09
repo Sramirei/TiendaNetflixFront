@@ -17,7 +17,7 @@ const ParamountTable = () => {
     setLoading(true); // Establecer carga en true antes de la solicitud
 
     axios
-      .get(process.env.REACT_APP_API_URL + '/paramount', {
+      .get(process.env.REACT_APP_API_URL + 'paramount', {
         headers: {
           Authorization: `Bearer ${session.token}`, // Agrega el token de sesión en los encabezados con el formato "Bearer {token}"
         },
@@ -84,7 +84,7 @@ const ParamountTable = () => {
         //console.log(accountData);
         // Realizar la solicitud POST al servidor para crear el usuario
         const response = await axios.post(
-          process.env.REACT_APP_API_URL + '/paramount',
+          process.env.REACT_APP_API_URL + 'paramount',
           accountData,
           {
             headers: {
@@ -113,7 +113,7 @@ const ParamountTable = () => {
     try {
       // Obtener los datos de la cuenta a editar del servidor
       const response = await axios.get(
-        `${process.env.REACT_APP_API_URL}/paramount/${accountId}`,
+        `${process.env.REACT_APP_API_URL}paramount/${accountId}`,
         {
           headers: {
             Authorization: `Bearer ${session.token}`, // Agrega el token de sesión en los encabezados con el formato "Bearer {token}"
@@ -150,7 +150,7 @@ const ParamountTable = () => {
         console.log(updatedAccountData);
         // Realizar la solicitud PUT al servidor para actualizar el usuario
         const updateResponse = await axios.put(
-          `${process.env.REACT_APP_API_URL}/paramount/${accountId}`,
+          `${process.env.REACT_APP_API_URL}paramount/${accountId}`,
           updatedAccountData,
           {
             headers: {
@@ -192,7 +192,7 @@ const ParamountTable = () => {
       });
 
       if (result.isConfirmed) {
-        await axios.delete(`${process.env.REACT_APP_API_URL}/paramount/${accountId}`, {
+        await axios.delete(`${process.env.REACT_APP_API_URL}paramount/${accountId}`, {
           headers: {
             Authorization: `Bearer ${session.token}`, // Agrega el token de sesión en los encabezados con el formato "Bearer {token}"
           },

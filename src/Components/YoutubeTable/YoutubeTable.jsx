@@ -17,7 +17,7 @@ const YoutubeTable = () => {
     setLoading(true); // Establecer carga en true antes de la solicitud
 
     axios
-      .get(process.env.REACT_APP_API_URL + '/youtube', {
+      .get(process.env.REACT_APP_API_URL + 'youtube', {
         headers: {
           Authorization: `Bearer ${session.token}`,
         },
@@ -84,7 +84,7 @@ const YoutubeTable = () => {
         //console.log(accountData);
         // Realizar la solicitud POST al servidor para crear el usuario
         const response = await axios.post(
-          process.env.REACT_APP_API_URL + '/youtube',
+          process.env.REACT_APP_API_URL + 'youtube',
           accountData,
           {
             headers: {
@@ -112,7 +112,7 @@ const YoutubeTable = () => {
     try {
       // Obtener los datos de la cuenta a editar del servidor
       const response = await axios.get(
-        `${process.env.REACT_APP_API_URL}/youtube/${accountId}`,
+        `${process.env.REACT_APP_API_URL}youtube/${accountId}`,
         {
           headers: {
             Authorization: `Bearer ${session.token}`,
@@ -149,7 +149,7 @@ const YoutubeTable = () => {
         console.log(updatedAccountData);
         // Realizar la solicitud PUT al servidor para actualizar el usuario
         const updateResponse = await axios.put(
-          `${process.env.REACT_APP_API_URL}/youtube/${accountId}`,
+          `${process.env.REACT_APP_API_URL}youtube/${accountId}`,
           updatedAccountData,
           {
             headers: {
@@ -191,7 +191,7 @@ const YoutubeTable = () => {
       });
 
       if (result.isConfirmed) {
-        await axios.delete(`${process.env.REACT_APP_API_URL}/youtube/${accountId}`, {
+        await axios.delete(`${process.env.REACT_APP_API_URL}youtube/${accountId}`, {
           headers: {
             Authorization: `Bearer ${session.token}`,
           },

@@ -5,15 +5,15 @@ const CustomLogin = () => {
     window.addEventListener('load', function() {
       let underlayPhoto = document.querySelector('.underlay-photo');
       let imageURLs = [
-        process.env.REACT_APP_PUBLIC_URL + '/Img/Home/Amazon2.jpg',
-        process.env.REACT_APP_PUBLIC_URL + '/Img/Home/Netflix3.jpg',
-        process.env.REACT_APP_PUBLIC_URL + '/Img/Home/apple3.jpg',
-        process.env.REACT_APP_PUBLIC_URL + '/Img/Home/Crunchy2.jpg',
-        process.env.REACT_APP_PUBLIC_URL + '/Img/Home/Disney3.jpg',
-        process.env.REACT_APP_PUBLIC_URL + '/Img/Home/Paramount2.png',
-        process.env.REACT_APP_PUBLIC_URL + '/Img/Home/Start1.jpg',
-        process.env.REACT_APP_PUBLIC_URL + '/Img/Home/Start3.jpg',
-        process.env.REACT_APP_PUBLIC_URL + '/Img/Home/Crunchy4.png',
+        process.env.REACT_APP_PUBLIC_URL + 'Img/Home/Amazon2.jpg',
+        process.env.REACT_APP_PUBLIC_URL + 'Img/Home/Netflix3.jpg',
+        process.env.REACT_APP_PUBLIC_URL + 'Img/Home/apple3.jpg',
+        process.env.REACT_APP_PUBLIC_URL + 'Img/Home/Crunchy2.jpg',
+        process.env.REACT_APP_PUBLIC_URL + 'Img/Home/Disney3.jpg',
+        process.env.REACT_APP_PUBLIC_URL + 'Img/Home/Paramount2.png',
+        process.env.REACT_APP_PUBLIC_URL + 'Img/Home/Start1.jpg',
+        process.env.REACT_APP_PUBLIC_URL + 'Img/Home/Start3.jpg',
+        process.env.REACT_APP_PUBLIC_URL + 'Img/Home/Crunchy4.png',
       ];
 
       function changeBackgroundImage() {
