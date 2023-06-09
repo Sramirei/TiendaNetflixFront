@@ -1,0 +1,25 @@
+{
+  "short_name": ".:: TRAMITE YAA ::.",
+  "name": "Venta de plataformas de streaming en .:: TRAMITE YAA ::.. Encuentra la mejor opción para transmitir tus contenidos en línea.",
+  "icons": [
+    {
+      "src": "./Img/logo1.jpg",
+      "sizes": "64x64 32x32 24x24 16x16",
+      "type": "image/jpg"
+    },
+    {
+      "src": "./Img/logo1.jpg",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "./Img/logo1.jpg",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ],
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "#000000",
+  "background_color": "#ffffff"
+}
