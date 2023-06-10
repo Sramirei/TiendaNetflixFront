@@ -20,9 +20,9 @@ const SalesUserTable = () => {
             Authorization: `Bearer ${session.token}`, // Agrega el token de sesión en los encabezados con el formato "Bearer {token}"
           },
         });
-
+        
         const salesList = res.data.filter(
-          (data) => data.cod_usuario === session.cod_usuario
+          (data) => data.cod_usuario == session.cod_usuario
         );
         setSales(salesList);
         setLoading(false);
