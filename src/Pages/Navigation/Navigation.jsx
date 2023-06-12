@@ -82,7 +82,7 @@ const Navigation = ({session}) => {
   const editUser = async (userId) => {
     try {
       // Obtener los datos del usuario a editar del servidor
-      const response = await axios.get(`http://localhost:9000/api/user/${userId}`, {
+      const response = await axios.get(`${process.env.REACT_APP_API_URL}user/${userId}`, {
         headers: {
           Authorization: `Bearer ${session.token}`,
         },
