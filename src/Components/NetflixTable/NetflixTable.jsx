@@ -192,7 +192,7 @@ const NetflixTable = () => {
       });
 
       if (result.isConfirmed) {
-        await axios.delete(`http://localhost:9000/api/netflix/${accountId}`, {
+        await axios.delete(`${process.env.REACT_APP_API_URL}netflix/${accountId}`, {
           headers: {
             Authorization: `Bearer ${session.token}`, // Agrega el token de sesión en los encabezados con el formato "Bearer {token}"
           },

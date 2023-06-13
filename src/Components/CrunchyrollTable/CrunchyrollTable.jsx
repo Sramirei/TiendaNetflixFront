@@ -13,10 +13,6 @@ const CrunchyrollTable = () => {
   const [loading, setLoading] = useState(true);
   const { session } = useContext(UserContext);
 
-  // process.env.REACT_APP_API_URL + 'crunchyroll'
-
-  //console.log(session.token);
-
   useEffect(() => {
     setLoading(true); // Establecer carga en true antes de la solicitud
 
@@ -86,13 +82,13 @@ const CrunchyrollTable = () => {
       if (result.isConfirmed) {
         const accountData = result.value;
         //console.log(accountData);
+        // Realizar la solicitud POST al servidor para crear el usuario
         const response = await axios.post(
           process.env.REACT_APP_API_URL + 'crunchyroll',
           accountData,
           {
             headers: {
-              "Content-Type": "multipart/form-data",
-              authorization: `Bearer ${session.token}`,
+              Authorization: `Bearer ${session.token}`, // Agrega el token de sesión en los encabezados con el formato "Bearer {token}"
             },
           }
         );

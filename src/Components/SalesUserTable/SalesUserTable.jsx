@@ -81,6 +81,7 @@ const SalesUserTable = () => {
               <div className="cell">Nombre Usuario</div>
               <div className="cell">Producto</div>
               <div className="cell">Cuenta</div>
+              <div className="cell">Contraseña</div>
               <div className="cell">Pantallas</div>
               <div className="cell">Fecha</div>
             </div>
@@ -119,6 +120,9 @@ const SalesUserTable = () => {
                   </div>
                   <div className="cell" data-title="company">
                     {sale.correo_producto}
+                  </div>
+                  <div className="cell" data-title="company">
+                    {sale.contrasena}
                   </div>
                   <div className="cell" data-title="salename">
                     {sale.pantalla}
