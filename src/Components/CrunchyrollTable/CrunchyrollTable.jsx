@@ -151,7 +151,7 @@ const CrunchyrollTable = () => {
         console.log(updatedAccountData);
         // Realizar la solicitud PUT al servidor para actualizar el usuario
         const updateResponse = await axios.put(
-          `${process.env.REACT_APP_API_URL}amazon/${accountId}`,
+          `${process.env.REACT_APP_API_URL}crunchyroll/${accountId}`,
           updatedAccountData,
           {
             headers: {

@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
+import Swal from 'sweetalert2';
 import PacmanLoader from "react-spinners/PacmanLoader";
 import UserContext from "../../Contexts/UserContext";
 import ExcelJS from "exceljs";
@@ -54,90 +55,141 @@ const SalesTable = () => {
     setSearchValue(input.value.trim());
   };
 
-  const exportToExcel = () => {
-    const workbook = new ExcelJS.Workbook();
-    const worksheet = workbook.addWorksheet("Sales");
-
-    // Agregar encabezados de columna
-    worksheet.addRow([
-      "cod_ventas",
-      "N. Factura",
-      "Nombre Usuario",
-      "Producto",
-      "Cuenta",
-      "Pantallas",
-      "Fecha",
-    ]);
-
-    // Agregar datos de ventas
-    sales.forEach((sale) => {
+  const exportToExcel = async () => {
+    const { value: dateRange } = await Swal.fire({
+      title: 'Selecciona un rango de fechas',
+      html: `<label for="start-date"><strong>Desde:</strong></label>
+             <input id="start-date" type="datetime-local" class="swal2-input" placeholder="Fecha inicial" />
+             <label for="end-date"><strong>Hasta:</strong></label>
+             <input id="end-date" type="datetime-local" class="swal2-input" placeholder="Fecha final" />`,
+      focusConfirm: false,
+      preConfirm: () => {
+        const startDate = document.getElementById('start-date').value;
+        const endDate = document.getElementById('end-date').value;
+        return [startDate, endDate];
+      }
+    });
+  
+    if (dateRange && dateRange.length === 2) {
+      const [startDate, endDate] = dateRange;
+      
+      const workbook = new ExcelJS.Workbook();
+      const worksheet = workbook.addWorksheet("Sales");
+  
+      // Agregar encabezados de columna
       worksheet.addRow([
-        sale.cod_ventas,
-        sale.numero_factura,
-        sale.nombre_usuario,
-        sale.producto,
-        sale.correo_producto,
-        sale.pantalla,
-        sale.fecha,
+        "cod_ventas",
+        "N. Factura",
+        "Nombre Usuario",
+        "Producto",
+        "Cuenta",
+        "Pantallas",
+        "perfil",
+        "Fecha",
       ]);
-    });
-
-    // Configurar el formato de la celda para texto
-    worksheet.columns.forEach((column) => {
-      column.eachCell((cell) => {
-        cell.alignment = { vertical: "middle", horizontal: "left" };
-        cell.font = { size: 12 };
-        cell.border = {
-          top: { style: "thin" },
-          left: { style: "thin" },
-          bottom: { style: "thin" },
-          right: { style: "thin" },
-        };
+  
+      // Filtrar las ventas por el rango de fechas seleccionado
+      const filteredSales = sales.filter((sale) => {
+        const saleDate = new Date(sale.fecha);
+        return saleDate >= new Date(startDate) && saleDate <= new Date(endDate);
       });
-    });
-
-    // Generar el archivo Excel
-    workbook.xlsx.writeBuffer().then((buffer) => {
-      // Crear un objeto Blob para descargar el archivo
-      const blob = new Blob([buffer], { type: "application/vnd.ms-excel" });
-
-      // Crear un enlace para descargar el archivo
-      const link = document.createElement("a");
-      link.href = URL.createObjectURL(blob);
-      link.download = "ventas.xls";
-      link.click();
-    });
+  
+      // Agregar datos de ventas filtrados
+      filteredSales.forEach((sale) => {
+        worksheet.addRow([
+          sale.cod_ventas,
+          sale.numero_factura,
+          sale.nombre_usuario,
+          sale.producto,
+          sale.correo_producto,
+          sale.pantalla,
+          sale.perfil,
+          sale.fecha,
+        ]);
+      });
+  
+      // Configurar el formato de la celda para texto
+      worksheet.columns.forEach((column) => {
+        column.eachCell((cell) => {
+          cell.alignment = { vertical: "middle", horizontal: "left" };
+          cell.font = { size: 12 };
+          cell.border = {
+            top: { style: "thin" },
+            left: { style: "thin" },
+            bottom: { style: "thin" },
+            right: { style: "thin" },
+          };
+        });
+      });
+  
+      // Generar el archivo Excel
+      workbook.xlsx.writeBuffer().then((buffer) => {
+        // Crear un objeto Blob para descargar el archivo
+        const blob = new Blob([buffer], { type: "application/vnd.ms-excel" });
+  
+        // Crear un enlace para descargar el archivo
+        const link = document.createElement("a");
+        link.href = URL.createObjectURL(blob);
+        link.download = "ventas.xls";
+        link.click();
+      });
+    }
   };
 
-  const generarPDF = () => {
-    const doc = new jsPDF();
-
-    doc.autoTable({
-      head: [
-        [
-          "cod_ventas",
-          "N. Factura",
-          "Nombre Usuario",
-          "Producto",
-          "Cuenta",
-          "Pantallas",
-          "Fecha",
-        ],
-      ],
-      body: sales.map((sale) => [
-        sale.cod_ventas,
-        sale.numero_factura,
-        sale.nombre_usuario,
-        sale.producto,
-        sale.correo_producto,
-        sale.pantalla,
-        sale.fecha,
-      ]),
-      startY: 20,
-      theme: "grid",
+  const generarPDF = async () => {
+    const { value: dateRange } = await Swal.fire({
+      title: 'Selecciona un rango de fechas',
+      html: `<label for="start-date"><strong>Desde:</strong></label>
+             <input id="start-date" type="datetime-local" class="swal2-input" placeholder="Fecha inicial" />
+             <label for="end-date"><strong>Hasta:</strong></label>
+             <input id="end-date" type="datetime-local" class="swal2-input" placeholder="Fecha final" />`,
+      focusConfirm: false,
+      preConfirm: () => {
+        const startDate = document.getElementById('start-date').value;
+        const endDate = document.getElementById('end-date').value;
+        return [startDate, endDate];
+      }
     });
-
-    doc.save("Ventas.pdf");
+  
+    if (dateRange && dateRange.length === 2) {
+      const [startDate, endDate] = dateRange;
+      
+      const doc = new jsPDF();
+  
+      doc.autoTable({
+        head: [
+          [
+            "cod_ventas",
+            "N. Factura",
+            "Nombre Usuario",
+            "Producto",
+            "Cuenta",
+            "Pantallas",
+            "perfil",
+            "Fecha",
+          ],
+        ],
+        body: sales
+          .filter((sale) => {
+            const saleDate = new Date(sale.fecha);
+            return saleDate >= new Date(startDate) && saleDate <= new Date(endDate);
+          })
+          .map((sale) => [
+            sale.cod_ventas,
+            sale.numero_factura,
+            sale.nombre_usuario,
+            sale.producto,
+            sale.correo_producto,
+            sale.pantalla,
+            sale.perfil,
+            sale.fecha,
+          ]),
+        startY: 20,
+        theme: "grid",
+      });
+  
+      doc.save("Ventas.pdf");
+    }
   };
 
   const paginate = (pageNumber) => {
@@ -169,6 +221,7 @@ const SalesTable = () => {
               <div className="cell">Cuenta</div>
               <div className="cell">Contraseña</div>
               <div className="cell">Pantallas</div>
+              <div className="cell">perfil</div>
               <div className="cell">Fecha</div>
             </div>
 
@@ -212,6 +265,9 @@ const SalesTable = () => {
                   </div>
                   <div className="cell" data-title="salename">
                     {sale.pantalla}
+                  </div>
+                  <div className="cell" data-title="salename">
+                    {sale.perfil}
                   </div>
                   <div className="cell" data-title="state">
                     {sale.fecha}
