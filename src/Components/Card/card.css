@@ -9,7 +9,7 @@
 	}
 
 	.panelContainer::-webkit-scrollbar {
-		height: 2.4rem;
+		height: 1.4rem;
 	  }
 	  
 	  .panelContainer::-webkit-scrollbar-thumb {

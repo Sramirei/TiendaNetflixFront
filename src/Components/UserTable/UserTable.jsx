@@ -91,21 +91,20 @@ const UserTable = () => {
           });
         },
       });
-
+  
       if (result.isConfirmed) {
         const userData = result.value;
-        //console.log(userData);
-        // Realizar la solicitud POST al servidor para crear el usuario
+  
         const response = await axios.post(
-          process.env.REACT_APP_API_URL + 'user',
+          process.env.REACT_APP_API_URL + "user",
           userData,
           {
             headers: {
-              Authorization: `Bearer ${session.token}`, // Agrega el token de sesión en los encabezados con el formato "Bearer {token}"
+              Authorization: `Bearer ${session.token}`,
             },
           }
         );
-
+  
         Swal.fire(
           "¡Creado!",
           "El usuario ha sido creado exitosamente.",
@@ -117,14 +116,19 @@ const UserTable = () => {
         Swal.fire("Cancelado", "No se ha creado ningún usuario.", "error");
       }
     } catch (error) {
-      Swal.fire(
-        "Error al crear el usuario",
-        "No se ha creado ningún usuario.",
-        `error: ${error.message}`
-      );
+      if (error.response && error.response.status === 400 && error.response.data === "The Username is already registered") {
+        Swal.fire("Error al crear el usuario", "El nombre de usuario ya está registrado.", "error");
+      } else {
+        Swal.fire(
+          "Error al crear el usuario",
+          "No se ha creado ningún usuario.",
+          `error: ${error.message}`
+        );
+      }
       console.error("Error al crear el usuario:", error);
     }
   };
+  
 
   const editUser = async (userId) => {
     try {
@@ -154,10 +158,10 @@ const UserTable = () => {
           '<input type="password" id="contrasena" class="swal2-input" placeholder="Contraseña" >' +
           '<select id="perfil" class="swal2-select">' +
           `<option value="1" ${
-            userData.perfil === "1" ? "selected" : ""
+            userData.perfil === "2" ? "selected" : ""
           }>Usuario</option>` +
           `<option value="2" ${
-            userData.perfil === "2" ? "selected" : ""
+            userData.perfil === "1" ? "selected" : ""
           }>Admin</option>` +
           "</select>" +
           `<input type="text" id="estado" class="swal2-input" placeholder="Estado" value="${userData.estado}">` +

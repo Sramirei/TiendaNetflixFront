@@ -117,64 +117,70 @@ const PlexTable = () => {
     const editAccount = async (accountId) => {
       try {
         // Obtener los datos de la cuenta a editar del servidor
-        const response = await axios.get(`${process.env.REACT_APP_API_URL}plex/${accountId}`, {
-  headers: {
-    Authorization: `Bearer ${session.token}` // Agrega el token de sesión en los encabezados con el formato "Bearer {token}"
-  }
-});
-
+        const response = await axios.get(
+          `${process.env.REACT_APP_API_URL}plex/${accountId}`,
+          {
+            headers: {
+              Authorization: `Bearer ${session.token}`, // Agrega el token de sesión en los encabezados con el formato "Bearer {token}"
+            },
+          }
+        );
         const accountData = response.data[0];
         //console.log(accountData);
-    
+  
         const result = await Swal.fire({
-          title: 'Editar Cuenta',
+          title: "Editar Cuenta",
           html:
             '<div class="form-grid">' +
             `<input type="text" id="correo" class="swal2-input" placeholder="correo" value="${accountData.correo}">` +
-            `<input type="text" id="contrasena" class="swal2-input" placeholder="contrasena" value="${accountData.contrasena}">`+
-            '</div>',
+            `<input type="text" id="contrasena" class="swal2-input" placeholder="contrasena" value="${accountData.contrasena}">` +
+            `<input type="text" id="usado" class="swal2-input" placeholder="usado" value="${accountData.usado}">` +
+            "</div>",
           showCancelButton: true,
-          confirmButtonText: 'Guardar',
-          cancelButtonText: 'Cancelar',
+          confirmButtonText: "Guardar",
+          cancelButtonText: "Cancelar",
           preConfirm: function () {
             return new Promise(function (resolve) {
               resolve({
-                correo: document.getElementById('correo').value,
-                contrasena: document.getElementById('contrasena').value,
+                correo: document.getElementById("correo").value,
+                contrasena: document.getElementById("contrasena").value,
                 pantalla: accountData.pantalla,
-                usado: accountData.usado,
+                usado: document.getElementById("usado").value,
               });
             });
-          }
+          },
         });
-    
+  
         if (result.isConfirmed) {
           const updatedAccountData = result.value;
           console.log(updatedAccountData);
           // Realizar la solicitud PUT al servidor para actualizar el usuario
-          const updateResponse = await axios.put(`${process.env.REACT_APP_API_URL}plex/${accountId}`, updatedAccountData, {
-  headers: {
-    Authorization: `Bearer ${session.token}` // Agrega el token de sesión en los encabezados con el formato "Bearer {token}"
-  }
-});
-
-    
-          Swal.fire(
-            '¡Actualizado!',
-            'La cuenta ha sido actualizada exitosamente.',
-            'success'
+          const updateResponse = await axios.put(
+            `${process.env.REACT_APP_API_URL}plex/${accountId}`,
+            updatedAccountData,
+            {
+              headers: {
+                Authorization: `Bearer ${session.token}`, // Agrega el token de sesión en los encabezados con el formato "Bearer {token}"
+              },
+            }
           );
-          console.log('Cuenta actualizada correctamente:', updateResponse.data);
+  
+          Swal.fire(
+            "¡Actualizado!",
+            "La cuenta ha sido actualizada exitosamente.",
+            "success"
+          );
+          console.log("Cuenta actualizada correctamente:", updateResponse.data);
           setUpdateTrigger(!updateTrigger);
         } else if (result.dismiss === Swal.DismissReason.cancel) {
           Swal.fire(
-            'Cancelado',
-            'No se ha realizado ninguna actualización.',
-            'error'
+            "Cancelado",
+            "No se ha realizado ninguna actualización.",
+            "error"
           );
         }
       } catch (error) {
-        console.error('Error al editar la cuenta:', error);
+        console.error("Error al editar la cuenta:", error);
       }
     };
     
@@ -182,39 +188,47 @@ const PlexTable = () => {
     const deleteAccount = async (accountId) => {
       try {
         const result = await Swal.fire({
-          title: '¿Estás seguro?',
-          text: '¡No podrás revertir esto!',
-          icon: 'warning',
+          title: "¿Estás seguro?",
+          text: "¡No podrás revertir esto!",
+          icon: "warning",
           showCancelButton: true,
-          confirmButtonText: 'Sí, eliminarlo',
-          cancelButtonText: 'No, cancelar',
+          confirmButtonText: "Sí, eliminarlo",
+          cancelButtonText: "No, cancelar",
           reverseButtons: true,
           buttonsStyling: true,
         });
     
         if (result.isConfirmed) {
-          await axios.delete(`${process.env.REACT_APP_API_URL}plex/${accountId}`, {
-            headers: {
-              Authorization: `Bearer ${session.token}` // Agrega el token de sesión en los encabezados con el formato "Bearer {token}"
+          try {
+            const response = await axios.delete(`${process.env.REACT_APP_API_URL}plex/${accountId}`, {
+              headers: {
+                Authorization: `Bearer ${session.token}`, // Agrega el token de sesión en los encabezados con el formato "Bearer {token}"
+              },
+            });
+    
+            if (response.status === 200) {
+              Swal.fire("¡Eliminado!", "Tu cuenta ha sido eliminada.", "success");
+              console.log("Cuenta eliminada correctamente");
+              setUpdateTrigger(!updateTrigger);
+            } else {
+              Swal.fire("Error", "No se pudo eliminar la cuenta.", "error");
+              console.log("Error al eliminar la cuenta");
             }
-          });
-              
-          Swal.fire(
-            '¡Eliminado!',
-            'Tu archivo ha sido eliminado.',
-            'success'
-          );
-          console.log('Cuenta actualizada correctamente');
-          setUpdateTrigger(!updateTrigger);
+          } catch (error) {
+            if (error.response && error.response.status === 405) {
+              Swal.fire("No permitido", "No se puede eliminar la cuenta porque está en uso.", "error");
+              console.log("No se puede eliminar la cuenta porque está en uso");
+            } else {
+              Swal.fire("Error", "Ocurrió un error al eliminar la cuenta.", "error");
+              console.error("Error al eliminar la cuenta:", error);
+            }
+          }
         } else if (result.dismiss === Swal.DismissReason.cancel) {
-          Swal.fire(
-            'Cancelado',
-            'Tu archivo imaginario está a salvo :)',
-            'error'
-          );
+          Swal.fire("Cancelado", "Tu cuenta está a salvo :)", "error");
+          console.log("Eliminación de cuenta cancelada");
         }
       } catch (error) {
-        console.error('Error al actualizar la cuenta:', error);
+        console.error("Error al actualizar la cuenta:", error);
       }
     };
   

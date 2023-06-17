@@ -129,6 +129,7 @@ const AppleTable = () => {
           '<div class="form-grid">' +
           `<input type="text" id="correo" class="swal2-input" placeholder="correo" value="${accountData.correo}">` +
           `<input type="text" id="contrasena" class="swal2-input" placeholder="contrasena" value="${accountData.contrasena}">` +
+          `<input type="text" id="usado" class="swal2-input" placeholder="usado" value="${accountData.usado}">` +
           "</div>",
         showCancelButton: true,
         confirmButtonText: "Guardar",
@@ -139,7 +140,7 @@ const AppleTable = () => {
               correo: document.getElementById("correo").value,
               contrasena: document.getElementById("contrasena").value,
               pantalla: accountData.pantalla,
-              usado: accountData.usado,
+              usado: document.getElementById("usado").value,
             });
           });
         },
@@ -190,23 +191,35 @@ const AppleTable = () => {
         reverseButtons: true,
         buttonsStyling: true,
       });
-
+  
       if (result.isConfirmed) {
-        await axios.delete(`${process.env.REACT_APP_API_URL}apple/${accountId}`, {
-          headers: {
-            Authorization: `Bearer ${session.token}`, // Agrega el token de sesión en los encabezados con el formato "Bearer {token}"
-          },
-        });
-
-        Swal.fire("¡Eliminado!", "Tu archivo ha sido eliminado.", "success");
-        console.log("Cuenta actualizada correctamente");
-        setUpdateTrigger(!updateTrigger);
+        try {
+          const response = await axios.delete(`${process.env.REACT_APP_API_URL}apple/${accountId}`, {
+            headers: {
+              Authorization: `Bearer ${session.token}`, // Agrega el token de sesión en los encabezados con el formato "Bearer {token}"
+            },
+          });
+  
+          if (response.status === 200) {
+            Swal.fire("¡Eliminado!", "Tu cuenta ha sido eliminada.", "success");
+            console.log("Cuenta eliminada correctamente");
+            setUpdateTrigger(!updateTrigger);
+          } else {
+            Swal.fire("Error", "No se pudo eliminar la cuenta.", "error");
+            console.log("Error al eliminar la cuenta");
+          }
+        } catch (error) {
+          if (error.response && error.response.status === 405) {
+            Swal.fire("No permitido", "No se puede eliminar la cuenta porque está en uso.", "error");
+            console.log("No se puede eliminar la cuenta porque está en uso");
+          } else {
+            Swal.fire("Error", "Ocurrió un error al eliminar la cuenta.", "error");
+            console.error("Error al eliminar la cuenta:", error);
+          }
+        }
       } else if (result.dismiss === Swal.DismissReason.cancel) {
-        Swal.fire(
-          "Cancelado",
-          "Tu archivo imaginario está a salvo :)",
-          "error"
-        );
+        Swal.fire("Cancelado", "Tu cuenta está a salvo :)", "error");
+        console.log("Eliminación de cuenta cancelada");
       }
     } catch (error) {
       console.error("Error al actualizar la cuenta:", error);
