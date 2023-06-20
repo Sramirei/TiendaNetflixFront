@@ -87,13 +87,14 @@ const Card = () => {
             },
           }
         );
-
+        //console.log(response.data);
         Swal.fire({
           icon: "success",
           title: "Compra realizada!",
           html: `<p>La compra fue registrada con éxito.</p>
                  <p>Su cuenta es: <strong>${accountData.data[0].correo}</strong></p>
-                 <p>Su Contraseña es: <strong>${accountData.data[0].contrasena}</strong></p>`,
+                 <p>Su Contraseña es: <strong>${accountData.data[0].contrasena}</strong></p>
+                 <p>Su perfil es : <strong>${response.data.perfil}</strong></p>`,
         });
       } else if (result.dismiss === Swal.DismissReason.cancel) {
         Swal.fire("Cancelado", "No se ha comprado ningún Servicio.", "error");

@@ -272,17 +272,17 @@ const PlexTable = () => {
                 </div>
               ) : (
                 currentAccounts.map((account) => (
-                <div className="row" key={account.id}>
-                  <div className="cell" data-title="id">
+                  <div className="row" key={account.id}>
+                  <div className="cell" data-title="correo">
                     {account.correo}
                   </div>
-                  <div className="cell" data-title="name">
+                  <div className="cell" data-title="Contraseña">
                     {account.contrasena}
                   </div>
-                  <div className="cell" data-title="lastName">
+                  <div className="cell" data-title="Pantallas">
                     {account.pantalla}
                   </div>
-                  <div className="cell" data-title="phone">
+                  <div className="cell" data-title="Usado">
                     {account.usado}
                   </div>
                   <div className="cell" data-title="Active">
@@ -292,8 +292,12 @@ const PlexTable = () => {
                         style={{ color: "#ff0000" }}
                       ></i>
                     </button>
-                    <button onClick={() => editAccount(account.id)}><i className="fa-regular fa-pen-to-square"
-                    style={{ color: "#005eff" }}></i></button>
+                    <button onClick={() => editAccount(account.id)}>
+                      <i
+                        className="fa-regular fa-pen-to-square"
+                        style={{ color: "#005eff" }}
+                      ></i>
+                    </button>
                   </div>
                 </div>
               ))

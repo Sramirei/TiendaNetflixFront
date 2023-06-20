@@ -279,16 +279,16 @@ const DisneyTable = () => {
             ) : (
               currentAccounts.map((account) => (
                 <div className="row" key={account.id}>
-                  <div className="cell" data-title="id">
+                  <div className="cell" data-title="correo">
                     {account.correo}
                   </div>
-                  <div className="cell" data-title="name">
+                  <div className="cell" data-title="Contraseña">
                     {account.contrasena}
                   </div>
-                  <div className="cell" data-title="lastName">
+                  <div className="cell" data-title="Pantallas">
                     {account.pantalla}
                   </div>
-                  <div className="cell" data-title="phone">
+                  <div className="cell" data-title="Usado">
                     {account.usado}
                   </div>
                   <div className="cell" data-title="Active">

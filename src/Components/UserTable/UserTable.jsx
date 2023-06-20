@@ -315,25 +315,25 @@ const UserTable = () => {
             ) : (
               currentUsers.map((user) => (
                 <div className="row" key={user.cod_usuario}>
-                  <div className="cell" data-title="id">
+                  <div className="cell" data-title="Identificacion">
                     {user.identificacion}
                   </div>
-                  <div className="cell" data-title="name">
+                  <div className="cell" data-title="Nombre">
                     {user.nombre}
                   </div>
-                  <div className="cell" data-title="lastName">
+                  <div className="cell" data-title="Apellido">
                     {user.apellido}
                   </div>
-                  <div className="cell" data-title="phone">
+                  <div className="cell" data-title="Celular">
                     {user.celular}
                   </div>
-                  <div className="cell" data-title="company">
+                  <div className="cell" data-title="Empresa">
                     {user.empresa}
                   </div>
-                  <div className="cell" data-title="username">
+                  <div className="cell" data-title="Usuario">
                     {user.login}
                   </div>
-                  <div className="cell" data-title="state">
+                  <div className="cell" data-title="Estado">
                     {user.estado}
                   </div>
                   <div className="cell" data-title="Active">

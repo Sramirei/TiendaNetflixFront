@@ -245,31 +245,31 @@ const SalesTable = () => {
             ) : (
               currentSales.map((sale) => (
                 <div className="row" key={sale.cod_ventas}>
-                  <div className="cell" data-title="id">
+                  <div className="cell" data-title="cod_venta">
                     {sale.cod_ventas}
                   </div>
-                  <div className="cell" data-title="name">
+                  <div className="cell" data-title="Numero de Factura">
                     {sale.numero_factura}
                   </div>
-                  <div className="cell" data-title="lastName">
+                  <div className="cell" data-title="Nombre usuario">
                     {sale.nombre_usuario}
                   </div>
-                  <div className="cell" data-title="phone">
+                  <div className="cell" data-title="Producto">
                     {sale.producto}
                   </div>
-                  <div className="cell" data-title="company">
+                  <div className="cell" data-title="Cuenta">
                     {sale.correo_producto}
                   </div>
-                  <div className="cell" data-title="company">
+                  <div className="cell" data-title="Contraseña">
                     {sale.contrasena}
                   </div>
-                  <div className="cell" data-title="salename">
+                  <div className="cell" data-title="Pantalla">
                     {sale.pantalla}
                   </div>
-                  <div className="cell" data-title="salename">
+                  <div className="cell" data-title="Perfil">
                     {sale.perfil}
                   </div>
-                  <div className="cell" data-title="state">
+                  <div className="cell" data-title="Fecha">
                     {sale.fecha}
                   </div>
                 </div>
