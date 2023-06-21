@@ -129,7 +129,6 @@ const UserTable = () => {
     }
   };
   
-
   const editUser = async (userId) => {
     try {
       // Obtener los datos del usuario a editar del servidor
@@ -157,11 +156,11 @@ const UserTable = () => {
           `<input type="text" id="login" class="swal2-input" placeholder="Login" value="${userData.login}">` +
           '<input type="password" id="contrasena" class="swal2-input" placeholder="Contraseña" >' +
           '<select id="perfil" class="swal2-select">' +
-          `<option value="1" ${
-            userData.perfil === "2" ? "selected" : ""
-          }>Usuario</option>` +
           `<option value="2" ${
-            userData.perfil === "1" ? "selected" : ""
+            userData.perfil == "2" ? "selected" : ""
+          }>Usuario</option>` +
+          `<option value="1" ${
+            userData.perfil == "1" ? "selected" : ""
           }>Admin</option>` +
           "</select>" +
           `<input type="text" id="estado" class="swal2-input" placeholder="Estado" value="${userData.estado}">` +

@@ -76,7 +76,7 @@ const Navigation = ({session}) => {
   }, [userMenuBtnRef, userActionsRef]);
 
   if (!session) {
-		return <Navigate to="/login" replace />;
+		return <Navigate to="/" replace />;
 	}
 
   const editUser = async (userId) => {
