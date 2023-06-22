@@ -6,7 +6,7 @@ import PacmanLoader from "react-spinners/PacmanLoader";
 const SalesUserTable = () => {
   const [sales, setSales] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const [salesPerPage] = useState(12);
+  const [salesPerPage] = useState(11);
   const [searchValue, setSearchValue] = useState("");
   const [loading, setLoading] = useState(true);
 

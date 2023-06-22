@@ -7,6 +7,7 @@ import UserContext from "../../Contexts/UserContext";
 
 const UserTable = () => {
   const [users, setUsers] = useState([]);
+  const [showInactive, setShowInactive] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [usersPerPage] = useState(11);
   const [updateTrigger, setUpdateTrigger] = useState(false);
@@ -18,12 +19,11 @@ const UserTable = () => {
     axios
       .get(process.env.REACT_APP_API_URL + 'user', {
         headers: {
-          Authorization: `Bearer ${session.token}`, // Agrega el token de sesión en los encabezados con el formato "Bearer {token}"
+          Authorization: `Bearer ${session.token}`,
         },
       })
       .then((res) => {
-        const usersList = res.data.filter((data) => data.estado === "Activo");
-        setUsers(usersList);
+        setUsers(res.data);
         setLoading(false);
       })
       .catch((error) => {
@@ -35,20 +35,26 @@ const UserTable = () => {
   const indexOfFirstUser = indexOfLastUser - usersPerPage;
 
   const filteredUsers = searchValue
-    ? users.filter(
-        (user) =>
-          user.identificacion
-            .toUpperCase()
-            .includes(searchValue.toUpperCase()) ||
-          user.nombre.toUpperCase().includes(searchValue.toUpperCase())
-      )
-    : users;
+  ? users.filter(
+      (user) =>
+        user.identificacion
+          .toUpperCase()
+          .includes(searchValue.toUpperCase()) ||
+        user.nombre.toUpperCase().includes(searchValue.toUpperCase())
+    )
+  : showInactive
+  ? users.filter((user) => user.estado === "Inactivo")
+  : users.filter((user) => user.estado === "Activo");
 
   const currentUsers = filteredUsers.slice(indexOfFirstUser, indexOfLastUser);
 
   const handleSearch = () => {
     const input = document.getElementById("searchInput");
     setSearchValue(input.value.trim());
+  };
+
+  const viewInactiveUsers = () => {
+    setShowInactive(!showInactive);
   };
 
   const createUser = async () => {
@@ -163,7 +169,14 @@ const UserTable = () => {
             userData.perfil == "1" ? "selected" : ""
           }>Admin</option>` +
           "</select>" +
-          `<input type="text" id="estado" class="swal2-input" placeholder="Estado" value="${userData.estado}">` +
+          '<select id="estado" class="swal2-select">' +
+          `<option value="Activo" ${
+            userData.estado == "Activo" ? "selected" : ""
+          }>Activo</option>` +
+          `<option value="Inactivo" ${
+            userData.estado == "Inactivo" ? "selected" : ""
+          }>Inactivo</option>` +
+          "</select>" +
           `<input type="text" id="cod_precio" class="swal2-input" placeholder="Código de Precio" value="${userData.cod_precio}">` +
           "</div>",
         showCancelButton: true,
@@ -234,11 +247,8 @@ const UserTable = () => {
       });
 
       if (result.isConfirmed) {
-        await axios.put(
+        await axios.delete(
           `${process.env.REACT_APP_API_URL}user/${userId}`,
-          {
-            estado: "Inactivo",
-          },
           {
             headers: {
               Authorization: `Bearer ${session.token}`, // Agrega el token de sesión en los encabezados con el formato "Bearer {token}"
@@ -280,10 +290,14 @@ const UserTable = () => {
             <button className="create" onClick={() => createUser()}>
               Crear Usuario
             </button>
+            <button className="create" onClick={viewInactiveUsers}>
+                {showInactive ? "Usuarios Activos" : "Usuarios Inactivos"}
+            </button>
           </div>
 
           <div className="table">
             <div className="row header blue">
+              <div className="cell">Cod. Usuario</div>
               <div className="cell">Identificacion</div>
               <div className="cell">Nombre</div>
               <div className="cell">Apellido</div>
@@ -314,6 +328,9 @@ const UserTable = () => {
             ) : (
               currentUsers.map((user) => (
                 <div className="row" key={user.cod_usuario}>
+                  <div className="cell" data-title="Identificacion">
+                    {user.cod_usuario}
+                  </div>
                   <div className="cell" data-title="Identificacion">
                     {user.identificacion}
                   </div>

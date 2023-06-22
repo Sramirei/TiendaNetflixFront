@@ -14,14 +14,13 @@ import NetflixTable from '../../Components/NetflixTable/NetflixTable';
 import AmazonTable from '../../Components/AmazonTable/AmazonTable';
 import DisneyTable from '../../Components/DisneyTable/DisneyTable';
 import CrunchyrollTable from '../../Components/CrunchyrollTable/CrunchyrollTable';
-import AppleTable from '../../Components/AppleTable/AppleTable';
 import YoutubeTable from '../../Components/YoutubeTable/YoutubeTable';
 import HboTable from '../../Components/HboTable/HboTable';
 import ParamountTable from '../../Components/ParamountTable/ParamountTable';
 import PlexTable from '../../Components/PlexTable/PlexTable';
 import SpotifyTable from '../../Components/SpotifyTable/SpotifyTable';
 import StarPlusTable from '../../Components/StarPlusTable/StarPlusTable';
-
+import DirecTvTable from '../../Components/DirecTvTable/DirecTvTable';
 
 const Navigation = ({session}) => {
 
@@ -187,7 +186,7 @@ const Navigation = ({session}) => {
       <li><a onClick={() => handleNavbarClick(<SpotifyTable session={session} />)}>Spotify</a></li>
       <li><a onClick={() => handleNavbarClick(<StarPlusTable session={session} />)}>Star Plus</a></li>
       <li><a onClick={() => handleNavbarClick(<HboTable session={session} />)}>Hbo</a></li>
-      <li><a onClick={() => handleNavbarClick(<AppleTable session={session} />)}>Apple +</a></li>
+      <li><a onClick={() => handleNavbarClick(<DirecTvTable session={session} />)}>DirecTv Go</a></li>
     </>
   ) : (
     <>

@@ -252,16 +252,16 @@
 	  }
   
   
-	  .panel.apple {
-		background-color: #b8aa0e;
+	  .panel.directv {
+		background-color: #0514e5;
 		
 	  }
 	  
-	  .panel.apple:after {
-		background-image: url('./Logos/apple-tv+.png');
+	  .panel.directv:after {
+		background-image: url('./Logos/direcTvGo.png');
 	  }
 	  
-	  .panel.apple:hover:after {
+	  .panel.directv:hover:after {
 		top: -18px;
 		}
 	  

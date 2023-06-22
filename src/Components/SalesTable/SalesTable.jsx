@@ -10,7 +10,7 @@ import "jspdf-autotable";
 const SalesTable = () => {
   const [sales, setSales] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const [salesPerPage] = useState(12);
+  const [salesPerPage] = useState(6);
   const [updateTrigger, setUpdateTrigger] = useState(false);
   const [searchValue, setSearchValue] = useState("");
   const [loading, setLoading] = useState(true);
@@ -55,6 +55,44 @@ const SalesTable = () => {
     setSearchValue(input.value.trim());
   };
 
+  const deleteSale = async (saleId) => {
+    try {
+      const result = await Swal.fire({
+        title: "¿Estás seguro?",
+        text: "¡No podrás revertir esto!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonText: "Sí, eliminarlo",
+        cancelButtonText: "No, cancelar",
+        reverseButtons: true,
+        buttonsStyling: true,
+      });
+  
+      if (result.isConfirmed) {
+        await axios.delete(
+          `${process.env.REACT_APP_API_URL}sales/${saleId}`,
+          {
+            headers: {
+              Authorization: `Bearer ${session.token}`, // Agrega el token de sesión en los encabezados con el formato "Bearer {token}"
+            },
+          }
+        );
+  
+        Swal.fire("¡Eliminado!", "La venta ha sido eliminada.", "success");
+        console.log("Venta eliminada correctamente");
+        setUpdateTrigger(!updateTrigger); // Actualiza el estado para volver a cargar las ventas actualizadas
+      } else if (result.dismiss === Swal.DismissReason.cancel) {
+        Swal.fire(
+          "Cancelado",
+          "La venta no ha sido eliminada.",
+          "error"
+        );
+      }
+    } catch (error) {
+      console.error("Error al eliminar la venta:", error);
+    }
+  };
+
   const exportToExcel = async () => {
     const { value: dateRange } = await Swal.fire({
       title: 'Selecciona un rango de fechas',
@@ -80,6 +118,7 @@ const SalesTable = () => {
       worksheet.addRow([
         "cod_ventas",
         "N. Factura",
+        "Cod. Usuario",
         "Nombre Usuario",
         "Producto",
         "Cuenta",
@@ -99,6 +138,7 @@ const SalesTable = () => {
         worksheet.addRow([
           sale.cod_ventas,
           sale.numero_factura,
+          sale.cod_usuario,
           sale.nombre_usuario,
           sale.producto,
           sale.correo_producto,
@@ -112,7 +152,7 @@ const SalesTable = () => {
       worksheet.columns.forEach((column) => {
         column.eachCell((cell) => {
           cell.alignment = { vertical: "middle", horizontal: "left" };
-          cell.font = { size: 12 };
+          cell.font = { size: 20 };
           cell.border = {
             top: { style: "thin" },
             left: { style: "thin" },
@@ -125,12 +165,12 @@ const SalesTable = () => {
       // Generar el archivo Excel
       workbook.xlsx.writeBuffer().then((buffer) => {
         // Crear un objeto Blob para descargar el archivo
-        const blob = new Blob([buffer], { type: "application/vnd.ms-excel" });
+        const blob = new Blob([buffer], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" });
   
         // Crear un enlace para descargar el archivo
         const link = document.createElement("a");
         link.href = URL.createObjectURL(blob);
-        link.download = "ventas.xls";
+        link.download = "ventas.xlsx";
         link.click();
       });
     }
@@ -161,6 +201,7 @@ const SalesTable = () => {
           [
             "cod_ventas",
             "N. Factura",
+            "Cod. Usuario",
             "Nombre Usuario",
             "Producto",
             "Cuenta",
@@ -177,6 +218,7 @@ const SalesTable = () => {
           .map((sale) => [
             sale.cod_ventas,
             sale.numero_factura,
+            sale.cod_usuario,
             sale.nombre_usuario,
             sale.producto,
             sale.correo_producto,
@@ -216,6 +258,7 @@ const SalesTable = () => {
             <div className="row header blue">
               <div className="cell">cod_ventas</div>
               <div className="cell">N. Factura</div>
+              <div className="cell">Cod. Usuario</div>
               <div className="cell">Nombre Usuario</div>
               <div className="cell">Producto</div>
               <div className="cell">Cuenta</div>
@@ -223,6 +266,7 @@ const SalesTable = () => {
               <div className="cell">Pantallas</div>
               <div className="cell">perfil</div>
               <div className="cell">Fecha</div>
+              <div className="cell">Acciones</div>
             </div>
 
             {loading ? (
@@ -251,6 +295,9 @@ const SalesTable = () => {
                   <div className="cell" data-title="Numero de Factura">
                     {sale.numero_factura}
                   </div>
+                  <div className="cell" data-title="Numero de Factura">
+                    {sale.cod_usuario}
+                  </div>
                   <div className="cell" data-title="Nombre usuario">
                     {sale.nombre_usuario}
                   </div>
@@ -272,6 +319,12 @@ const SalesTable = () => {
                   <div className="cell" data-title="Fecha">
                     {sale.fecha}
                   </div>
+                  <button onClick={() => deleteSale(sale.cod_ventas)}>
+                  <i
+                    className="fa-solid fa-trash-can"
+                    style={{ color: "#ff0000" }}
+                  ></i>
+                  </button>
                 </div>
               ))
             )}

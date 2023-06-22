@@ -170,8 +170,8 @@ const Card = () => {
             <span></span>
           </a>
         </div>
-        <div className="panel apple">
-          <a href="#" onClick={() => buyService("apple")}>
+        <div className="panel directv">
+          <a href="#" onClick={() => buyService("directv")}>
             <span></span>
           </a>
         </div>

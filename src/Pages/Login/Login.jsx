@@ -13,29 +13,35 @@ const Login = ({session}) => {
 
 	const { login }  = useContext(UserContext)
 
-	const handleLogin = async (e) =>{
-		e.preventDefault()
-		try {
-			
-			// eslint-disable-next-line no-unused-vars
-			const data = await login({
-				login: user,
-				contrasena: password
-			})
-
-			setUser('')
-			setPassword('')
-
-		} catch (error) {
-      console.log(error);
-			Swal.fire({
-				title: 'Error!',
-				text: 'Revise sus credenciales',
-				icon: 'warning',
-				confirmButtonText: 'Ok'
-		})
-		}
-  }
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    try {
+      const data = await login({
+        login: user,
+        contrasena: password
+      });
+  
+      setUser('');
+      setPassword('');
+  
+    } catch (error) {
+      if (error.response && error.response.status === 401 && error.response.data.error === 'User is inactive') {
+        Swal.fire({
+          title: 'Error!',
+          text: 'Su cuenta está inactiva',
+          icon: 'warning',
+          confirmButtonText: 'Ok'
+        });
+      } else {
+        Swal.fire({
+          title: 'Error!',
+          text: 'Revise sus credenciales',
+          icon: 'warning',
+          confirmButtonText: 'Ok'
+        });
+      }
+    }
+  };
 
   if (session) {
 		return <Navigate to="/home" replace />;
