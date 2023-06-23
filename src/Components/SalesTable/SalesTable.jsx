@@ -9,6 +9,8 @@ import "jspdf-autotable";
 
 const SalesTable = () => {
   const [sales, setSales] = useState([]);
+  const [startDate, setStartDate] = useState("");
+  const [endDate, setEndDate] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [salesPerPage] = useState(6);
   const [updateTrigger, setUpdateTrigger] = useState(false);
@@ -26,6 +28,7 @@ const SalesTable = () => {
         });
         const salesList = res.data;
         setSales(salesList);
+        //console.log(salesList);
         setLoading(false);
       } catch (error) {
         console.log(error);
@@ -48,11 +51,49 @@ const SalesTable = () => {
       )
     : sales;
 
-  const currentSales = filteredSales.slice(indexOfFirstSales, indexOfLastSales);
+  const filteredSalesByDate = startDate && endDate
+    ? filteredSales.filter((sale) => {
+        const saleDate = new Date(sale.fecha);
+        const rangeStartDate = new Date(startDate);
+        const rangeEndDate = new Date(endDate);
+        return (
+          saleDate >= rangeStartDate &&
+          saleDate <= rangeEndDate
+        );
+      })
+    : filteredSales;
 
-  const handleSearch = () => {
+  const currentSales = filteredSalesByDate.slice(
+    indexOfFirstSales,
+    indexOfLastSales
+  );
+
+  const handleInputSearch = () => {
     const input = document.getElementById("searchInput");
     setSearchValue(input.value.trim());
+  };
+
+  const handleDateSearch = async () => {
+    const { value: dateRange } = await Swal.fire({
+      title: "Selecciona un rango de fechas",
+      html: `
+        <label for="start-date"><strong>Desde:</strong></label><br/>
+        <input id="start-date" type="date" class="swal2-input" required /><br/>
+        <label for="end-date"><strong>Hasta:</strong></label><br/>
+        <input id="end-date" type="date" class="swal2-input" />
+      `,
+      focusConfirm: false,
+      preConfirm: () => {
+        const start = document.getElementById("start-date").value;
+        const end = document.getElementById("end-date").value;
+        return [start, end];
+      },
+    });
+
+    if (dateRange && dateRange.length === 2) {
+      setStartDate(dateRange[0]);
+      setEndDate(dateRange[1]);
+    }
   };
 
   const deleteSale = async (saleId) => {
@@ -118,7 +159,7 @@ const SalesTable = () => {
       worksheet.addRow([
         "cod_ventas",
         "N. Factura",
-        "Cod. Usuario",
+        "Identificacion",
         "Nombre Usuario",
         "Producto",
         "Cuenta",
@@ -138,7 +179,7 @@ const SalesTable = () => {
         worksheet.addRow([
           sale.cod_ventas,
           sale.numero_factura,
-          sale.cod_usuario,
+          sale.identificacion,
           sale.nombre_usuario,
           sale.producto,
           sale.correo_producto,
@@ -201,7 +242,7 @@ const SalesTable = () => {
           [
             "cod_ventas",
             "N. Factura",
-            "Cod. Usuario",
+            "Identificacion",
             "Nombre Usuario",
             "Producto",
             "Cuenta",
@@ -218,7 +259,7 @@ const SalesTable = () => {
           .map((sale) => [
             sale.cod_ventas,
             sale.numero_factura,
-            sale.cod_usuario,
+            sale.identificacion,
             sale.nombre_usuario,
             sale.producto,
             sale.correo_producto,
@@ -249,7 +290,8 @@ const SalesTable = () => {
         <div className="wrapper">
           <div className="panel-table">
             <input type="text" id="searchInput" placeholder="Buscar..." />
-            <button onClick={handleSearch}>Buscar</button>
+            <button onClick={handleInputSearch}>Buscar</button>
+            <button onClick={handleDateSearch}>Buscar por fecha</button>
             <button onClick={exportToExcel}>Descargar Excel</button>
             <button onClick={generarPDF}>Descargar Pdf</button>
           </div>
@@ -258,7 +300,7 @@ const SalesTable = () => {
             <div className="row header blue">
               <div className="cell">cod_ventas</div>
               <div className="cell">N. Factura</div>
-              <div className="cell">Cod. Usuario</div>
+              <div className="cell">Identificacion</div>
               <div className="cell">Nombre Usuario</div>
               <div className="cell">Producto</div>
               <div className="cell">Cuenta</div>
@@ -296,7 +338,7 @@ const SalesTable = () => {
                     {sale.numero_factura}
                   </div>
                   <div className="cell" data-title="Numero de Factura">
-                    {sale.cod_usuario}
+                    {sale.identificacion}
                   </div>
                   <div className="cell" data-title="Nombre usuario">
                     {sale.nombre_usuario}

@@ -78,6 +78,7 @@ const SalesUserTable = () => {
             <div className="row header blue">
               <div className="cell">cod_ventas</div>
               <div className="cell">N. Factura</div>
+              <div className="cell">Identificacion</div>
               <div className="cell">Nombre Usuario</div>
               <div className="cell">Producto</div>
               <div className="cell">Cuenta</div>
@@ -112,6 +113,9 @@ const SalesUserTable = () => {
                   </div>
                   <div className="cell" data-title="Numero de Factura">
                     {sale.numero_factura}
+                  </div>
+                  <div className="cell" data-title="Numero de Factura">
+                    {sale.identificacion}
                   </div>
                   <div className="cell" data-title="Nombre">
                     {sale.nombre_usuario}
