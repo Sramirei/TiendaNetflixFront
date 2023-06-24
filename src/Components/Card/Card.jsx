@@ -17,7 +17,9 @@ const Card = () => {
         service === "netflix" ||
         service === "amazon" ||
         service === "disney" ||
-        service === "startplus"
+        service === "startplus" ||
+        service === "plex" ||
+        service === "hbo"
       ) {
         // Mostrar formulario con opciones
         result = await Swal.fire({
@@ -87,14 +89,14 @@ const Card = () => {
             },
           }
         );
-        //console.log(response.data);
-        Swal.fire({
+        //console.log(response.data); service === '' ? '1,2' response.data.perfil
+        Swal.fire({ 
           icon: "success",
           title: "Compra realizada!",
           html: `<p>La compra fue registrada con éxito.</p>
                  <p>Su cuenta es: <strong>${accountData.data[0].correo}</strong></p>
                  <p>Su Contraseña es: <strong>${accountData.data[0].contrasena}</strong></p>
-                 <p>Su perfil es : <strong>${response.data.perfil}</strong></p>
+                 <p>Su perfil es : <strong>${service === 'directv' ? '1,2' : response.data.perfil}</strong></p>
                  <p>Fecha : <strong>${response.data.fecha}</strong></p>`,
         });
       } else if (result.dismiss === Swal.DismissReason.cancel) {

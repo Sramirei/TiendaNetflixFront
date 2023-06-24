@@ -356,7 +356,7 @@ const SalesTable = () => {
                     {sale.pantalla}
                   </div>
                   <div className="cell" data-title="Perfil">
-                    {sale.perfil}
+                    {sale.producto === 'directv' ? "1,2" : sale.perfil }
                   </div>
                   <div className="cell" data-title="Fecha">
                     {sale.fecha}
