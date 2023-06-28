@@ -78,9 +78,9 @@ const SalesTable = () => {
       title: "Selecciona un rango de fechas",
       html: `
         <label for="start-date"><strong>Desde:</strong></label><br/>
-        <input id="start-date" type="date" class="swal2-input" required /><br/>
+        <input id="start-date" type="datetime-local" class="swal2-input" required /><br/>
         <label for="end-date"><strong>Hasta:</strong></label><br/>
-        <input id="end-date" type="date" class="swal2-input" />
+        <input id="end-date" type="datetime-local" class="swal2-input" />
       `,
       focusConfirm: false,
       preConfirm: () => {
@@ -137,9 +137,9 @@ const SalesTable = () => {
   const exportToExcel = async () => {
     const { value: dateRange } = await Swal.fire({
       title: 'Selecciona un rango de fechas',
-      html: `<label for="start-date"><strong>Desde:</strong></label>
-             <input id="start-date" type="datetime-local" class="swal2-input" placeholder="Fecha inicial" />
-             <label for="end-date"><strong>Hasta:</strong></label>
+      html: `<label for="start-date"><strong>Desde:</strong></label><br/>
+             <input id="start-date" type="datetime-local" class="swal2-input" placeholder="Fecha inicial" /><br/>
+             <label for="end-date"><strong>Hasta:</strong></label><br/>
              <input id="end-date" type="datetime-local" class="swal2-input" placeholder="Fecha final" />`,
       focusConfirm: false,
       preConfirm: () => {
@@ -220,9 +220,9 @@ const SalesTable = () => {
   const generarPDF = async () => {
     const { value: dateRange } = await Swal.fire({
       title: 'Selecciona un rango de fechas',
-      html: `<label for="start-date"><strong>Desde:</strong></label>
-             <input id="start-date" type="datetime-local" class="swal2-input" placeholder="Fecha inicial" />
-             <label for="end-date"><strong>Hasta:</strong></label>
+      html: `<label for="start-date"><strong>Desde:</strong></label><br/>
+             <input id="start-date" type="datetime-local" class="swal2-input" placeholder="Fecha inicial" /><br/>
+             <label for="end-date"><strong>Hasta:</strong></label><br/>
              <input id="end-date" type="datetime-local" class="swal2-input" placeholder="Fecha final" />`,
       focusConfirm: false,
       preConfirm: () => {
