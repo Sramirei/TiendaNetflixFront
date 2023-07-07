@@ -47,7 +47,7 @@ const SalesTable = () => {
           sale.nombre_usuario
             .toUpperCase()
             .includes(searchValue.toUpperCase()) ||
-          sale.producto.toUpperCase().includes(searchValue.toUpperCase())
+          sale.identificacion.toUpperCase().includes(searchValue.toUpperCase())
       )
     : sales;
 
@@ -78,9 +78,9 @@ const SalesTable = () => {
       title: "Selecciona un rango de fechas",
       html: `
         <label for="start-date"><strong>Desde:</strong></label><br/>
-        <input id="start-date" type="datetime-local" class="swal2-input" required /><br/>
+        <input id="start-date" type="date" class="swal2-input" required /><br/>
         <label for="end-date"><strong>Hasta:</strong></label><br/>
-        <input id="end-date" type="datetime-local" class="swal2-input" />
+        <input id="end-date" type="date" class="swal2-input" />
       `,
       focusConfirm: false,
       preConfirm: () => {
@@ -91,9 +91,12 @@ const SalesTable = () => {
     });
 
     if (dateRange && dateRange.length === 2) {
-      setStartDate(dateRange[0]);
-      setEndDate(dateRange[1]);
+      setStartDate(`${dateRange[0]} 0:00:00`);
+      setEndDate(`${dateRange[1]} 23:59:00`);
+      console.log(`${dateRange[0]} 0:00:00`);
+    console.log(`${dateRange[1]} 23:59:00`);
     }
+    
   };
 
   const deleteSale = async (saleId) => {
@@ -293,7 +296,6 @@ const SalesTable = () => {
             <button onClick={handleInputSearch}>Buscar</button>
             <button onClick={handleDateSearch}>Buscar por fecha</button>
             <button onClick={exportToExcel}>Descargar Excel</button>
-            <button onClick={generarPDF}>Descargar Pdf</button>
           </div>
 
           <div className="table">
@@ -356,7 +358,7 @@ const SalesTable = () => {
                     {sale.pantalla}
                   </div>
                   <div className="cell" data-title="Perfil">
-                    {sale.producto === 'directv' ? "1,2" : sale.perfil }
+                    {sale.perfil }
                   </div>
                   <div className="cell" data-title="Fecha">
                     {sale.fecha}
