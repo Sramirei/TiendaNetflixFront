@@ -93,8 +93,8 @@ const SalesTable = () => {
     if (dateRange && dateRange.length === 2) {
       setStartDate(`${dateRange[0]} 0:00:00`);
       setEndDate(`${dateRange[1]} 23:59:00`);
-      console.log(`${dateRange[0]} 0:00:00`);
-    console.log(`${dateRange[1]} 23:59:00`);
+      //console.log(`${dateRange[0]} 0:00:00`);
+    //console.log(`${dateRange[1]} 23:59:00`);
     }
     
   };
@@ -141,15 +141,15 @@ const SalesTable = () => {
     const { value: dateRange } = await Swal.fire({
       title: 'Selecciona un rango de fechas',
       html: `<label for="start-date"><strong>Desde:</strong></label><br/>
-             <input id="start-date" type="datetime-local" class="swal2-input" placeholder="Fecha inicial" /><br/>
+             <input id="start-date" type="date" class="swal2-input" placeholder="Fecha inicial" /><br/>
              <label for="end-date"><strong>Hasta:</strong></label><br/>
-             <input id="end-date" type="datetime-local" class="swal2-input" placeholder="Fecha final" />`,
+             <input id="end-date" type="date" class="swal2-input" placeholder="Fecha final" />`,
       focusConfirm: false,
       preConfirm: () => {
         const startDate = document.getElementById('start-date').value;
         const endDate = document.getElementById('end-date').value;
         return [startDate, endDate];
-      }
+      }, 
     });
   
     if (dateRange && dateRange.length === 2) {
