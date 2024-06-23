@@ -12,14 +12,20 @@ const HboTable = () => {
   const [searchValue, setSearchValue] = useState("");
   const [loading, setLoading] = useState(true);
   const { session } = useContext(UserContext);
+  const user = sessionStorage.getItem("user");
+  const emailUser = sessionStorage.getItem("email");
+  const ipUser = sessionStorage.getItem("ip");
 
   useEffect(() => {
     setLoading(true); // Establecer carga en true antes de la solicitud
 
     axios
-      .get(process.env.REACT_APP_API_URL + 'hbo', {
+      .get(process.env.REACT_APP_API_URL + "hbo", {
         headers: {
-          Authorization: `Bearer ${session.token}`, // Agrega el token de sesión en los encabezados con el formato "Bearer {token}"
+          Authorization: `Bearer ${session.token}`,
+          user: user,
+          emailUser: emailUser,
+          ip: ipUser, // Agrega el token de sesión en los encabezados con el formato "Bearer {token}"
         },
       })
       .then((res) => {
@@ -84,11 +90,14 @@ const HboTable = () => {
         //console.log(accountData);
         // Realizar la solicitud POST al servidor para crear el usuario
         const response = await axios.post(
-          process.env.REACT_APP_API_URL + 'hbo',
+          process.env.REACT_APP_API_URL + "hbo",
           accountData,
           {
             headers: {
-              Authorization: `Bearer ${session.token}`, // Agrega el token de sesión en los encabezados con el formato "Bearer {token}"
+              Authorization: `Bearer ${session.token}`,
+              user: user,
+              emailUser: emailUser,
+              ip: ipUser, // Agrega el token de sesión en los encabezados con el formato "Bearer {token}"
             },
           }
         );
@@ -116,7 +125,10 @@ const HboTable = () => {
         `${process.env.REACT_APP_API_URL}hbo/${accountId}`,
         {
           headers: {
-            Authorization: `Bearer ${session.token}`, // Agrega el token de sesión en los encabezados con el formato "Bearer {token}"
+            Authorization: `Bearer ${session.token}`,
+            user: user,
+            emailUser: emailUser,
+            ip: ipUser, // Agrega el token de sesión en los encabezados con el formato "Bearer {token}"
           },
         }
       );
@@ -155,7 +167,10 @@ const HboTable = () => {
           updatedAccountData,
           {
             headers: {
-              Authorization: `Bearer ${session.token}`, // Agrega el token de sesión en los encabezados con el formato "Bearer {token}"
+              Authorization: `Bearer ${session.token}`,
+              user: user,
+              emailUser: emailUser,
+              ip: ipUser, // Agrega el token de sesión en los encabezados con el formato "Bearer {token}"
             },
           }
         );
@@ -191,15 +206,21 @@ const HboTable = () => {
         reverseButtons: true,
         buttonsStyling: true,
       });
-  
+
       if (result.isConfirmed) {
         try {
-          const response = await axios.delete(`${process.env.REACT_APP_API_URL}hbo/${accountId}`, {
-            headers: {
-              Authorization: `Bearer ${session.token}`, // Agrega el token de sesión en los encabezados con el formato "Bearer {token}"
-            },
-          });
-  
+          const response = await axios.delete(
+            `${process.env.REACT_APP_API_URL}hbo/${accountId}`,
+            {
+              headers: {
+                Authorization: `Bearer ${session.token}`,
+                user: user,
+                emailUser: emailUser,
+                ip: ipUser, // Agrega el token de sesión en los encabezados con el formato "Bearer {token}"
+              },
+            }
+          );
+
           if (response.status === 200) {
             Swal.fire("¡Eliminado!", "Tu cuenta ha sido eliminada.", "success");
             console.log("Cuenta eliminada correctamente");
@@ -210,10 +231,18 @@ const HboTable = () => {
           }
         } catch (error) {
           if (error.response && error.response.status === 405) {
-            Swal.fire("No permitido", "No se puede eliminar la cuenta porque está en uso.", "error");
+            Swal.fire(
+              "No permitido",
+              "No se puede eliminar la cuenta porque está en uso.",
+              "error"
+            );
             console.log("No se puede eliminar la cuenta porque está en uso");
           } else {
-            Swal.fire("Error", "Ocurrió un error al eliminar la cuenta.", "error");
+            Swal.fire(
+              "Error",
+              "Ocurrió un error al eliminar la cuenta.",
+              "error"
+            );
             console.error("Error al eliminar la cuenta:", error);
           }
         }

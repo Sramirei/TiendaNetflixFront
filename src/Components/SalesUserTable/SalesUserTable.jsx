@@ -9,18 +9,24 @@ const SalesUserTable = () => {
   const [salesPerPage] = useState(11);
   const [searchValue, setSearchValue] = useState("");
   const [loading, setLoading] = useState(true);
+  const user = sessionStorage.getItem("user");
+  const emailUser = sessionStorage.getItem("email");
+  const ipUser = sessionStorage.getItem("ip");
 
   const { session } = useContext(UserContext);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await axios.get(process.env.REACT_APP_API_URL + 'sales', {
+        const res = await axios.get(process.env.REACT_APP_API_URL + "sales", {
           headers: {
-            Authorization: `Bearer ${session.token}`, // Agrega el token de sesión en los encabezados con el formato "Bearer {token}"
+            Authorization: `Bearer ${session.token}`,
+            user: user,
+            emailUser: emailUser,
+            ip: ipUser, // Agrega el token de sesión en los encabezados con el formato "Bearer {token}"
           },
         });
-        
+
         const salesList = res.data.filter(
           (data) => data.cod_usuario == session.cod_usuario
         );
@@ -133,7 +139,7 @@ const SalesUserTable = () => {
                     {sale.pantalla}
                   </div>
                   <div className="cell" data-title="Perfil">
-                  {sale.perfil }
+                    {sale.perfil}
                   </div>
                   <div className="cell" data-title="Fecha">
                     {sale.fecha}

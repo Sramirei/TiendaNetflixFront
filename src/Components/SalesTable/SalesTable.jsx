@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
-import Swal from 'sweetalert2';
+import Swal from "sweetalert2";
 import PacmanLoader from "react-spinners/PacmanLoader";
 import UserContext from "../../Contexts/UserContext";
 import ExcelJS from "exceljs";
@@ -17,13 +17,19 @@ const SalesTable = () => {
   const [searchValue, setSearchValue] = useState("");
   const [loading, setLoading] = useState(true);
   const { session } = useContext(UserContext);
+  const user = sessionStorage.getItem("user");
+  const emailUser = sessionStorage.getItem("email");
+  const ipUser = sessionStorage.getItem("ip");
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await axios.get(process.env.REACT_APP_API_URL + 'sales', {
+        const res = await axios.get(process.env.REACT_APP_API_URL + "sales", {
           headers: {
-            Authorization: `Bearer ${session.token}`, // Agrega el token de sesión en los encabezados con el formato "Bearer {token}"
+            Authorization: `Bearer ${session.token}`,
+            user: user,
+            emailUser: emailUser,
+            ip: ipUser, // Agrega el token de sesión en los encabezados con el formato "Bearer {token}"
           },
         });
         const salesList = res.data;
@@ -51,17 +57,15 @@ const SalesTable = () => {
       )
     : sales;
 
-  const filteredSalesByDate = startDate && endDate
-    ? filteredSales.filter((sale) => {
-        const saleDate = new Date(sale.fecha);
-        const rangeStartDate = new Date(startDate);
-        const rangeEndDate = new Date(endDate);
-        return (
-          saleDate >= rangeStartDate &&
-          saleDate <= rangeEndDate
-        );
-      })
-    : filteredSales;
+  const filteredSalesByDate =
+    startDate && endDate
+      ? filteredSales.filter((sale) => {
+          const saleDate = new Date(sale.fecha);
+          const rangeStartDate = new Date(startDate);
+          const rangeEndDate = new Date(endDate);
+          return saleDate >= rangeStartDate && saleDate <= rangeEndDate;
+        })
+      : filteredSales;
 
   const currentSales = filteredSalesByDate.slice(
     indexOfFirstSales,
@@ -94,9 +98,8 @@ const SalesTable = () => {
       setStartDate(`${dateRange[0]} 0:00:00`);
       setEndDate(`${dateRange[1]} 23:59:00`);
       //console.log(`${dateRange[0]} 0:00:00`);
-    //console.log(`${dateRange[1]} 23:59:00`);
+      //console.log(`${dateRange[1]} 23:59:00`);
     }
-    
   };
 
   const deleteSale = async (saleId) => {
@@ -111,26 +114,22 @@ const SalesTable = () => {
         reverseButtons: true,
         buttonsStyling: true,
       });
-  
+
       if (result.isConfirmed) {
-        await axios.delete(
-          `${process.env.REACT_APP_API_URL}sales/${saleId}`,
-          {
-            headers: {
-              Authorization: `Bearer ${session.token}`, // Agrega el token de sesión en los encabezados con el formato "Bearer {token}"
-            },
-          }
-        );
-  
+        await axios.delete(`${process.env.REACT_APP_API_URL}sales/${saleId}`, {
+          headers: {
+            Authorization: `Bearer ${session.token}`,
+            user: user,
+            emailUser: emailUser,
+            ip: ipUser, // Agrega el token de sesión en los encabezados con el formato "Bearer {token}"
+          },
+        });
+
         Swal.fire("¡Eliminado!", "La venta ha sido eliminada.", "success");
         console.log("Venta eliminada correctamente");
         setUpdateTrigger(!updateTrigger); // Actualiza el estado para volver a cargar las ventas actualizadas
       } else if (result.dismiss === Swal.DismissReason.cancel) {
-        Swal.fire(
-          "Cancelado",
-          "La venta no ha sido eliminada.",
-          "error"
-        );
+        Swal.fire("Cancelado", "La venta no ha sido eliminada.", "error");
       }
     } catch (error) {
       console.error("Error al eliminar la venta:", error);
@@ -139,25 +138,25 @@ const SalesTable = () => {
 
   const exportToExcel = async () => {
     const { value: dateRange } = await Swal.fire({
-      title: 'Selecciona un rango de fechas',
+      title: "Selecciona un rango de fechas",
       html: `<label for="start-date"><strong>Desde:</strong></label><br/>
              <input id="start-date" type="date" class="swal2-input" placeholder="Fecha inicial" /><br/>
              <label for="end-date"><strong>Hasta:</strong></label><br/>
              <input id="end-date" type="date" class="swal2-input" placeholder="Fecha final" />`,
       focusConfirm: false,
       preConfirm: () => {
-        const startDate = document.getElementById('start-date').value;
-        const endDate = document.getElementById('end-date').value;
+        const startDate = document.getElementById("start-date").value;
+        const endDate = document.getElementById("end-date").value;
         return [startDate, endDate];
-      }, 
+      },
     });
-  
+
     if (dateRange && dateRange.length === 2) {
       const [startDate, endDate] = dateRange;
-      
+
       const workbook = new ExcelJS.Workbook();
       const worksheet = workbook.addWorksheet("Sales");
-  
+
       // Agregar encabezados de columna
       worksheet.addRow([
         "cod_ventas",
@@ -170,13 +169,13 @@ const SalesTable = () => {
         "perfil",
         "Fecha",
       ]);
-  
+
       // Filtrar las ventas por el rango de fechas seleccionado
       const filteredSales = sales.filter((sale) => {
         const saleDate = new Date(sale.fecha);
         return saleDate >= new Date(startDate) && saleDate <= new Date(endDate);
       });
-  
+
       // Agregar datos de ventas filtrados
       filteredSales.forEach((sale) => {
         worksheet.addRow([
@@ -191,7 +190,7 @@ const SalesTable = () => {
           sale.fecha,
         ]);
       });
-  
+
       // Configurar el formato de la celda para texto
       worksheet.columns.forEach((column) => {
         column.eachCell((cell) => {
@@ -205,12 +204,14 @@ const SalesTable = () => {
           };
         });
       });
-  
+
       // Generar el archivo Excel
       workbook.xlsx.writeBuffer().then((buffer) => {
         // Crear un objeto Blob para descargar el archivo
-        const blob = new Blob([buffer], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" });
-  
+        const blob = new Blob([buffer], {
+          type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+        });
+
         // Crear un enlace para descargar el archivo
         const link = document.createElement("a");
         link.href = URL.createObjectURL(blob);
@@ -222,24 +223,24 @@ const SalesTable = () => {
 
   const generarPDF = async () => {
     const { value: dateRange } = await Swal.fire({
-      title: 'Selecciona un rango de fechas',
+      title: "Selecciona un rango de fechas",
       html: `<label for="start-date"><strong>Desde:</strong></label><br/>
              <input id="start-date" type="datetime-local" class="swal2-input" placeholder="Fecha inicial" /><br/>
              <label for="end-date"><strong>Hasta:</strong></label><br/>
              <input id="end-date" type="datetime-local" class="swal2-input" placeholder="Fecha final" />`,
       focusConfirm: false,
       preConfirm: () => {
-        const startDate = document.getElementById('start-date').value;
-        const endDate = document.getElementById('end-date').value;
+        const startDate = document.getElementById("start-date").value;
+        const endDate = document.getElementById("end-date").value;
         return [startDate, endDate];
-      }
+      },
     });
-  
+
     if (dateRange && dateRange.length === 2) {
       const [startDate, endDate] = dateRange;
-      
+
       const doc = new jsPDF();
-  
+
       doc.autoTable({
         head: [
           [
@@ -257,7 +258,9 @@ const SalesTable = () => {
         body: sales
           .filter((sale) => {
             const saleDate = new Date(sale.fecha);
-            return saleDate >= new Date(startDate) && saleDate <= new Date(endDate);
+            return (
+              saleDate >= new Date(startDate) && saleDate <= new Date(endDate)
+            );
           })
           .map((sale) => [
             sale.cod_ventas,
@@ -273,7 +276,7 @@ const SalesTable = () => {
         startY: 20,
         theme: "grid",
       });
-  
+
       doc.save("Ventas.pdf");
     }
   };
@@ -358,16 +361,16 @@ const SalesTable = () => {
                     {sale.pantalla}
                   </div>
                   <div className="cell" data-title="Perfil">
-                    {sale.perfil }
+                    {sale.perfil}
                   </div>
                   <div className="cell" data-title="Fecha">
                     {sale.fecha}
                   </div>
                   <button onClick={() => deleteSale(sale.cod_ventas)}>
-                  <i
-                    className="fa-solid fa-trash-can"
-                    style={{ color: "#ff0000" }}
-                  ></i>
+                    <i
+                      className="fa-solid fa-trash-can"
+                      style={{ color: "#ff0000" }}
+                    ></i>
                   </button>
                 </div>
               ))

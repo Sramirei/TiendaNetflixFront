@@ -14,12 +14,18 @@ const UserTable = () => {
   const [searchValue, setSearchValue] = useState("");
   const [loading, setLoading] = useState(true);
   const { session } = useContext(UserContext);
+  const user = sessionStorage.getItem("user");
+  const emailUser = sessionStorage.getItem("email");
+  const ipUser = sessionStorage.getItem("ip");
 
   useEffect(() => {
     axios
-      .get(process.env.REACT_APP_API_URL + 'user', {
+      .get(process.env.REACT_APP_API_URL + "user", {
         headers: {
           Authorization: `Bearer ${session.token}`,
+          user: user,
+          emailUser: emailUser,
+          ip: ipUser,
         },
       })
       .then((res) => {
@@ -35,16 +41,16 @@ const UserTable = () => {
   const indexOfFirstUser = indexOfLastUser - usersPerPage;
 
   const filteredUsers = searchValue
-  ? users.filter(
-      (user) =>
-        user.identificacion
-          .toUpperCase()
-          .includes(searchValue.toUpperCase()) ||
-        user.nombre.toUpperCase().includes(searchValue.toUpperCase())
-    )
-  : showInactive
-  ? users.filter((user) => user.estado === "Inactivo")
-  : users.filter((user) => user.estado === "Activo");
+    ? users.filter(
+        (user) =>
+          user.identificacion
+            .toUpperCase()
+            .includes(searchValue.toUpperCase()) ||
+          user.nombre.toUpperCase().includes(searchValue.toUpperCase())
+      )
+    : showInactive
+    ? users.filter((user) => user.estado === "Inactivo")
+    : users.filter((user) => user.estado === "Activo");
 
   const currentUsers = filteredUsers.slice(indexOfFirstUser, indexOfLastUser);
 
@@ -97,20 +103,23 @@ const UserTable = () => {
           });
         },
       });
-  
+
       if (result.isConfirmed) {
         const userData = result.value;
-  
+
         const response = await axios.post(
           process.env.REACT_APP_API_URL + "user",
           userData,
           {
             headers: {
               Authorization: `Bearer ${session.token}`,
+              user: user,
+              emailUser: emailUser,
+              ip: ipUser,
             },
           }
         );
-  
+
         Swal.fire(
           "¡Creado!",
           "El usuario ha sido creado exitosamente.",
@@ -122,8 +131,16 @@ const UserTable = () => {
         Swal.fire("Cancelado", "No se ha creado ningún usuario.", "error");
       }
     } catch (error) {
-      if (error.response && error.response.status === 400 && error.response.data === "The Username is already registered") {
-        Swal.fire("Error al crear el usuario", "El nombre de usuario ya está registrado.", "error");
+      if (
+        error.response &&
+        error.response.status === 400 &&
+        error.response.data === "The Username is already registered"
+      ) {
+        Swal.fire(
+          "Error al crear el usuario",
+          "El nombre de usuario ya está registrado.",
+          "error"
+        );
       } else {
         Swal.fire(
           "Error al crear el usuario",
@@ -134,7 +151,7 @@ const UserTable = () => {
       console.error("Error al crear el usuario:", error);
     }
   };
-  
+
   const editUser = async (userId) => {
     try {
       // Obtener los datos del usuario a editar del servidor
@@ -142,7 +159,10 @@ const UserTable = () => {
         `${process.env.REACT_APP_API_URL}user/${userId}`,
         {
           headers: {
-            Authorization: `Bearer ${session.token}`, // Agrega el token de sesión en los encabezados con el formato "Bearer {token}"
+            Authorization: `Bearer ${session.token}`,
+            user: user,
+            emailUser: emailUser,
+            ip: ipUser, // Agrega el token de sesión en los encabezados con el formato "Bearer {token}"
           },
         }
       );
@@ -210,7 +230,10 @@ const UserTable = () => {
           updatedUserData,
           {
             headers: {
-              Authorization: `Bearer ${session.token}`, // Agrega el token de sesión en los encabezados con el formato "Bearer {token}"
+              Authorization: `Bearer ${session.token}`,
+              user: user,
+              emailUser: emailUser,
+              ip: ipUser, // Agrega el token de sesión en los encabezados con el formato "Bearer {token}"
             },
           }
         );
@@ -247,14 +270,14 @@ const UserTable = () => {
       });
 
       if (result.isConfirmed) {
-        await axios.delete(
-          `${process.env.REACT_APP_API_URL}user/${userId}`,
-          {
-            headers: {
-              Authorization: `Bearer ${session.token}`, // Agrega el token de sesión en los encabezados con el formato "Bearer {token}"
-            },
-          }
-        );
+        await axios.delete(`${process.env.REACT_APP_API_URL}user/${userId}`, {
+          headers: {
+            Authorization: `Bearer ${session.token}`,
+            user: user,
+            emailUser: emailUser,
+            ip: ipUser, // Agrega el token de sesión en los encabezados con el formato "Bearer {token}"
+          },
+        });
 
         Swal.fire("¡Eliminado!", "Tu archivo ha sido eliminado.", "success");
         console.log("Usuario actualizado correctamente");
@@ -291,7 +314,7 @@ const UserTable = () => {
               Crear Usuario
             </button>
             <button className="create" onClick={viewInactiveUsers}>
-                {showInactive ? "Usuarios Activos" : "Usuarios Inactivos"}
+              {showInactive ? "Usuarios Activos" : "Usuarios Inactivos"}
             </button>
           </div>
 
