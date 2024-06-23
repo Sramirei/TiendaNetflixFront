@@ -178,7 +178,7 @@ const Navigation = ({ session }) => {
             className="user-avatar"
             id="user-menu-btn"
             src={
-              process.env.REACT_APP_PUBLIC_URL + "/Img/Navegacion/Perfil2.jpg"
+              process.env.REACT_APP_PUBLIC_URL + "Img/Navegacion/Perfil2.jpg"
             }
             alt="User Avatar"
             ref={userMenuBtnRef}
